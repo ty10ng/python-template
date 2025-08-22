@@ -1,8 +1,14 @@
 # ty10ng's Python Project Template
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Cookiecutter](https://img.shields.io/badge/cookiecutter-template-blue.svg)](https://github.com/cookiecutter/cookiecutter)
+
 My personal [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for Python projects. This is a living template that evolves as I learn and develop better patterns for Python development. It includes the foundations I've found useful in my own projects - feel free to use it if it helps your projects too!
 
-> **Note**: This template reflects my current understanding and preferred patterns. It will continue to evolve as I discover new tools, techniques, and best practices in Python development.
+> **🎯 Goal**: Provide a solid, opinionated foundation for Python projects with security, testing, and configuration best practices built-in.
+
+> **📝 Note**: This template reflects my current understanding and preferred patterns. It will continue to evolve as I discover new tools, techniques, and best practices in Python development.
 
 ## What This Template Provides
 
@@ -163,6 +169,46 @@ def test_my_feature(mock_env_vars, temp_dir, sample_config_file):
 - Sample configuration files
 - Isolated test environments
 
+## Project Types & Examples
+
+The template supports different project types to match your specific needs:
+
+### 📚 **Library** (Default)
+Perfect for reusable packages and utilities.
+
+**Example**: Data processing library, API client, utility functions
+```bash
+cookiecutter https://github.com/ty10ng/python-template.git
+# Choose: project_type = library
+```
+
+**Generated structure**: Standard Python package with testing and configuration
+
+### ⚡ **CLI Application**
+Command-line tools with professional features.
+
+**Example**: File processor, data converter, system utility
+```bash
+cookiecutter https://github.com/ty10ng/python-template.git
+# Choose: project_type = cli-application
+```
+
+**Features included**:
+- Click framework with Rich output
+- Shell completion for bash/zsh/fish/PowerShell
+- Man page generation
+- Professional help system
+
+**Usage example**:
+```bash
+your-tool --help
+your-tool process-files *.csv --output results/
+your-tool completion  # Setup shell completion
+```
+
+### 🚀 **Future Types**
+Planning to add API server and microservice templates based on real project needs.
+
 ## Development Workflow
 
 ### 1. Initial Setup
@@ -298,10 +344,45 @@ I believe in treating AI as a respectful collaborator - like working alongside a
 
 ## Contributing
 
-Found this useful? Have suggestions? Feel free to:
-1. Open an issue to discuss improvements
-2. Submit a pull request with enhancements
-3. Fork it and adapt it for your own needs
+I welcome contributions, feedback, and suggestions! This template improves through real-world usage and community input.
+
+### 🐛 **Found a Bug?**
+- Check [existing issues](https://github.com/ty10ng/python-template/issues) first
+- Open a new issue with details about the problem
+- Include steps to reproduce and your environment
+
+### 💡 **Have an Idea?**
+- Open an issue to discuss new features or improvements
+- Explain the use case and how it would help your projects
+- Consider if it fits the template's philosophy of practical, needed features
+
+### 🔧 **Want to Contribute Code?**
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Test your changes with both project types (library and CLI)
+4. Commit with clear messages (`git commit -m 'Add amazing feature'`)
+5. Push to your branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+### 📖 **Documentation Improvements**
+Documentation improvements are always welcome! This includes:
+- Better examples and use cases
+- Clearer setup instructions
+- More comprehensive troubleshooting
+
+## License
+
+This template is released under the [MIT License](LICENSE). Feel free to use it for any purpose, modify it to fit your needs, and share it with others.
+
+## Acknowledgments
+
+- Built with [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
+- Developed collaboratively with AI as a coding partner
+- Inspired by real-world Python development challenges and solutions
+
+---
+
+**Happy coding!** 🐍✨
 
 ## License
 
