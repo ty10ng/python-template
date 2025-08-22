@@ -126,18 +126,18 @@ class App:
                     elif comment_text and not comment_text.startswith('=') and comment_text.upper() != 'OPTIONAL':
                         current_description = comment_text
                     continue
-                    
-                    # Handle variable definitions (VAR_NAME=value)
-                    if '=' in line and not line.startswith('#'):
-                        var_name = line.split('=')[0].strip()
-                        if var_name:
-                            variables[var_name] = {
-                                'description': current_description,
-                                'optional': is_optional
-                            }
-                            # Reset state after using
-                            current_description = None
-                            is_optional = False
+                
+                # Handle variable definitions (VAR_NAME=value)
+                if '=' in line and not line.startswith('#'):
+                    var_name = line.split('=')[0].strip()
+                    if var_name:
+                        variables[var_name] = {
+                            'description': current_description,
+                            'optional': is_optional
+                        }
+                        # Reset state after using
+                        current_description = None
+                        is_optional = False
         
         except Exception as e:
             self.logger.error(f"Error parsing .env.example file: {e}")

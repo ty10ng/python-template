@@ -48,13 +48,15 @@ class Config:
         }
     }
     
-    def __init__(self, config_file_env_var: str = '{{cookiecutter.package_name|upper}}_CONFIG_FILE'):
+    def __init__(self, config_file: Optional[str] = None, config_file_env_var: str = '{{cookiecutter.package_name|upper}}_CONFIG_FILE'):
         """
         Initialize the configuration manager.
         
         Args:
+            config_file: Direct path to config file (overrides environment variable)
             config_file_env_var: Environment variable name that contains the config file path
         """
+        self.config_file = config_file
         self.config_file_env_var = config_file_env_var
         self.logger = get_logger(f"{__name__}.{self.__class__.__name__}")
         self._config = {}
@@ -68,8 +70,8 @@ class Config:
         self._config = self._deep_copy_dict(self.DEFAULT_CONFIG)
         self.logger.debug("✅ Loaded default configuration")
         
-        # Load from config file if specified
-        config_file_path = os.getenv(self.config_file_env_var)
+        # Load from config file if specified (direct file takes precedence over env var)
+        config_file_path = self.config_file or os.getenv(self.config_file_env_var)
         if config_file_path:
             self._load_config_file(config_file_path)
         else:

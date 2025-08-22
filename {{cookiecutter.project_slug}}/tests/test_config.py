@@ -41,8 +41,8 @@ class TestConfig:
         
         with patch.dict('os.environ', {'API_TIMEOUT': '60'}):
             config = Config()
-            # Environment variable should override default
-            assert config.get('api.timeout') == '60'
+            # Environment variable should override default (converted to int)
+            assert config.get('api.timeout') == 60
     
     def test_config_hierarchy(self, sample_config_file):
         """Test configuration hierarchy: env vars > config file > defaults."""
