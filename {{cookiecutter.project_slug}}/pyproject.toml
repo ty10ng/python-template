@@ -10,7 +10,7 @@ authors = [
     {name = "{{cookiecutter.author_name}}", email = "{{cookiecutter.author_email}}"},
 ]
 readme = "README.md"
-requires-python = ">=3.{{cookiecutter.python_version.split('.')[1]}}"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -25,7 +25,10 @@ classifiers = [
 {% endif -%}
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.{{cookiecutter.python_version.split('.')[1]}}",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
     "pyyaml>=6.0",
