@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
+    name: Analyze (${% raw %}{{ matrix.language }}{% endraw %})
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
@@ -33,10 +33,10 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@294a9d92911152fe08befb9ec57d4bb391f8c7f8  # v3.25.11
         with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
+          languages: ${% raw %}{{ matrix.language }}{% endraw %}
+          build-mode: ${% raw %}{{ matrix.build-mode }}{% endraw %}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@294a9d92911152fe08befb9ec57d4bb391f8c7f8  # v3.25.11
         with:
-          category: "/language:${{ matrix.language }}"
+          category: "/language:${% raw %}{{ matrix.language }}{% endraw %}"

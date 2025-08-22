@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   test:
-    name: Test Python ${{ matrix.python-version }}
+    name: Test Python ${% raw %}{{ matrix.python-version }}{% endraw %}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -22,10 +22,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${% raw %}{{ matrix.python-version }}{% endraw %}
         uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3  # v5.1.0
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${% raw %}{{ matrix.python-version }}{% endraw %}
           cache: pip
           cache-dependency-path: pyproject.toml
 
@@ -50,14 +50,14 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673  # v4.5.0
-        if: matrix.python-version == '3.12'
+        if: {% raw %}matrix.python-version == '3.12'{% endraw %}
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a  # v4.3.6
-        if: matrix.python-version == '3.12'
+        if: {% raw %}matrix.python-version == '3.12'{% endraw %}
         with:
           name: coverage-report
           path: |

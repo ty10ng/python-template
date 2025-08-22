@@ -37,9 +37,7 @@ jobs:
         with:
           results_file: results.sarif
           results_format: sarif
-          # Public repository to enable Badge
-          repo_token: ${{ secrets.SCORECARD_TOKEN }}
-          # Upload the results as artifacts
+          # Upload the results as artifacts (repo_token not needed for public repos)
           publish_results: true
 
       # Upload the results to GitHub's code scanning dashboard
