@@ -12,7 +12,11 @@
 - **🎨 Rich Output**: Colored console logs with emoji indicators
 - **📝 JSON Formatting**: Structured JSON log output for production
 - **📁 Best Practices**: Python packaging standards with src/ layout
-- **🧪 Comprehensive Testing**: Full test suite with security and performance tests
+- **🧪 Comprehensive Testing**: Full test suite with security and performance tests{% if cookiecutter.project_type == "cli-application" %}
+- **⚡ Professional CLI**: Rich command-line interface with Click framework
+- **🗂️ Shell Completion**: Auto-completion for bash, zsh, fish, and PowerShell
+- **📖 Man Page Generation**: Automatic documentation for system integration
+- **🎯 Smart Commands**: Context-aware commands with helpful error messages{% endif %}
 
 ## Quick Start
 
@@ -50,7 +54,87 @@ cp config.json config.local.json
 
 ### Usage
 
+{%- if cookiecutter.project_type == "cli-application" %}
+
+#### Command Line Interface
+
+After installation, the CLI is available as `{{ cookiecutter.package_name }}`:
+
+```bash
+# Get help
+{{ cookiecutter.package_name }} --help
+
+# Check application status
+{{ cookiecutter.package_name }} status
+
+# Say hello with options
+{{ cookiecutter.package_name }} hello "World" --count 3
+
+# Show detailed application info
+{{ cookiecutter.package_name }} info
+
+# Install shell completion (bash, zsh, fish, powershell)
+{{ cookiecutter.package_name }} --install-completion bash
+
+# Show completion help
+{{ cookiecutter.package_name }} completion
+```
+
+#### Installation
+
+```bash
+# Install from PyPI (when published)
+pip install {{ cookiecutter.project_slug }}
+
+# Install from source
+git clone https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
+cd {{ cookiecutter.project_slug }}
+pip install .
+
+# Development installation
+pip install -e ".[dev]"
+```
+
+#### Shell Completion
+
+The CLI supports auto-completion for major shells:
+
+```bash
+# Bash
+{{ cookiecutter.package_name }} --install-completion bash
+source ~/.bashrc
+
+# Zsh  
+{{ cookiecutter.package_name }} --install-completion zsh
+source ~/.zshrc
+
+# Fish
+{{ cookiecutter.package_name }} --install-completion fish
+
+# PowerShell
+{{ cookiecutter.package_name }} --install-completion powershell
+```
+
+#### Man Page
+
+Generate and install a man page:
+
+```bash
+# Generate man page
+{{ cookiecutter.package_name }}-man
+
+# Install system-wide (requires sudo)
+sudo cp {{ cookiecutter.package_name }}.1 /usr/local/man/man1/
+
+# View man page
+man {{ cookiecutter.package_name }}
+```
+
+#### Programmatic Usage
+{%- else %}
+
 #### Library Usage
+{%- endif %}
 
 ```python
 from {{cookiecutter.package_name}} import get_logger, get_config

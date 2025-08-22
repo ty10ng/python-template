@@ -37,6 +37,7 @@ dependencies = [
 {%- if cookiecutter.project_type == "cli-application" %}
     "click>=8.1.0",
     "rich>=13.0.0",
+    "click-man>=0.4.1",
 {%- endif %}
 ]
 
@@ -59,6 +60,7 @@ dev = [
 {%- if cookiecutter.project_type == "cli-application" %}
 [project.scripts]
 {{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
+{{ cookiecutter.package_name }}-man = "{{ cookiecutter.package_name }}.cli:generate_man_page"
 {%- endif %}
 
 # Future project types can add scripts here:

@@ -4,6 +4,7 @@ Command-line interface for {{ cookiecutter.project_name }}.
 This module provides the CLI entry point and command definitions.
 """
 
+import os
 import click
 from rich.console import Console
 from rich.table import Table
@@ -41,6 +42,10 @@ def cli(ctx, verbose, config):
     ctx.obj['verbose'] = verbose
     ctx.obj['config'] = config
     
+    # Configure logging based on verbosity
+    if verbose:
+        logger.info("Verbose mode enabled")
+    
     if verbose:
         logger.info("Verbose mode enabled")
     
@@ -67,6 +72,28 @@ def status(ctx):
     
     console.print(table)
     logger.info("Status command executed")
+
+
+@cli.command()
+def completion():
+    """Manage shell completion installation."""
+    console.print("🔧 Shell Completion Setup")
+    console.print("")
+    console.print("To enable shell completion, run one of these commands:")
+    console.print("")
+    console.print("  [cyan]Bash:[/cyan]")
+    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    # Add this to ~/.bashrc for permanent completion")
+    console.print("")
+    console.print("  [cyan]Zsh:[/cyan]")
+    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    # Add this to ~/.zshrc for permanent completion")
+    console.print("")
+    console.print("  [cyan]Fish:[/cyan]")
+    console.print("    {{cookiecutter.project_slug}} --help | source")
+    console.print("    # Add this to ~/.config/fish/config.fish for permanent completion")
+    console.print("")
+    console.print("Note: Restart your shell after enabling completion.")
 
 
 @cli.command()
@@ -113,6 +140,40 @@ def info(ctx):
     logger.info("Info command executed")
 
 
+@cli.command(hidden=True)
+@click.option(
+    '--output', '-o',
+    type=click.Path(),
+    default='{{ cookiecutter.package_name }}.1',
+    help='Output file for the man page'
+)
+@click.pass_context
+def generate_man(ctx, output):
+    """Generate man page for the CLI application."""
+    try:
+        import click_man
+        
+        console.print(f"Generating man page: {output}")
+        
+        # Generate the man page
+        man_page = click_man.generate_man_page(cli)
+        
+        with open(output, 'w') as f:
+            f.write(man_page)
+        
+        console.print(f"✅ Man page generated: {output}")
+        console.print(f"Install with: sudo cp {output} /usr/local/man/man1/")
+        console.print(f"View with: man {output.replace('.1', '')}")
+        
+        logger.info(f"Man page generated: {output}")
+        
+    except ImportError:
+        console.print("[red]Error: click-man not installed. Install with: pip install click-man[/red]")
+    except Exception as e:
+        console.print(f"[red]Error generating man page: {e}[/red]")
+        logger.error(f"Man page generation failed: {e}")
+
+
 def main():
     """Main CLI entry point."""
     try:
@@ -121,6 +182,39 @@ def main():
         logger.error(f"CLI error: {e}")
         console.print(f"[red]Error: {e}[/red]")
         raise
+
+
+def generate_man_page():
+    """Entry point for man page generation."""
+    try:
+        from click_man.core import write_man_pages
+        import sys
+        import os
+        
+        if len(sys.argv) > 1:
+            output_dir = sys.argv[1]
+        else:
+            output_dir = "."
+        
+        print(f"Generating man page in directory: {output_dir}")
+        
+        # Create output directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Generate the man page
+        write_man_pages(cli, output_dir)
+        
+        man_file = os.path.join(output_dir, "{{cookiecutter.project_slug}}.1")
+        print(f"✅ Man page generated: {man_file}")
+        print(f"Install with: sudo cp {man_file} /usr/local/man/man1/")
+        print(f"View with: man {{cookiecutter.project_slug}}")
+        
+    except ImportError:
+        print("Error: click-man not installed. Install with: pip install click-man")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error generating man page: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
