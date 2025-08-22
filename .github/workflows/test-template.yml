@@ -164,7 +164,7 @@ jobs:
         if: matrix.project-type == 'cli-application'
         run: |
           cd test_project
-          python test_project.py --help
+          python run_test_project.py --help
           echo "✅ CLI help command works"
 
       - name: Test project structure
