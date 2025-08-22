@@ -1,5 +1,5 @@
 """
-Configuration management module for viren.
+Configuration management module for {{cookiecutter.package_name}}.
 
 This module handles hierarchical configuration loading:
 DEFAULTS < CONFIG_FILE < Environment Variables
@@ -17,8 +17,8 @@ from .logger import get_logger
 logger = get_logger(__name__)
 
 
-class VirenConfig:
-    """Hierarchical configuration manager for viren."""
+class Config:
+    """Hierarchical configuration manager for {{cookiecutter.package_name}}."""
     
     # Default configuration values
     DEFAULT_CONFIG = {
@@ -26,7 +26,7 @@ class VirenConfig:
             'level': 'INFO',
             'console_level': 'INFO',
             'file_level': 'DEBUG',
-            'file_path': 'logs/viren.log',
+            'file_path': 'logs/{{cookiecutter.package_name}}.log',
             'max_file_size': '10MB',
             'backup_count': 5
         },
@@ -42,13 +42,13 @@ class VirenConfig:
             'pool_timeout': 30
         },
         'app': {
-            'name': 'viren',
+            'name': '{{cookiecutter.package_name}}',
             'version': '1.0.0',
             'debug': False
         }
     }
     
-    def __init__(self, config_file_env_var: str = 'VIREN_CONFIG_FILE'):
+    def __init__(self, config_file_env_var: str = '{{cookiecutter.package_name|upper}}_CONFIG_FILE'):
         """
         Initialize the configuration manager.
         
@@ -118,12 +118,12 @@ class VirenConfig:
         # Define environment variable mappings to config paths
         env_mappings = {
             # Logging configuration
-            'VIREN_LOG_LEVEL': 'logging.level',
-            'VIREN_CONSOLE_LOG_LEVEL': 'logging.console_level', 
-            'VIREN_FILE_LOG_LEVEL': 'logging.file_level',
-            'VIREN_LOG_FILE_PATH': 'logging.file_path',
-            'VIREN_LOG_MAX_FILE_SIZE': 'logging.max_file_size',
-            'VIREN_LOG_BACKUP_COUNT': 'logging.backup_count',
+            '{{cookiecutter.package_name|upper}}_LOG_LEVEL': 'logging.level',
+            '{{cookiecutter.package_name|upper}}_CONSOLE_LOG_LEVEL': 'logging.console_level', 
+            '{{cookiecutter.package_name|upper}}_FILE_LOG_LEVEL': 'logging.file_level',
+            '{{cookiecutter.package_name|upper}}_LOG_FILE_PATH': 'logging.file_path',
+            '{{cookiecutter.package_name|upper}}_LOG_MAX_FILE_SIZE': 'logging.max_file_size',
+            '{{cookiecutter.package_name|upper}}_LOG_BACKUP_COUNT': 'logging.backup_count',
             
             # API configuration
             'API_TIMEOUT': 'api.timeout',
@@ -137,9 +137,9 @@ class VirenConfig:
             'DB_POOL_TIMEOUT': 'database.pool_timeout',
             
             # App configuration
-            'VIREN_APP_NAME': 'app.name',
-            'VIREN_APP_VERSION': 'app.version',
-            'VIREN_DEBUG': 'app.debug'
+            '{{cookiecutter.package_name|upper}}_APP_NAME': 'app.name',
+            '{{cookiecutter.package_name|upper}}_APP_VERSION': 'app.version',
+            '{{cookiecutter.package_name|upper}}_DEBUG': 'app.debug'
         }
         
         override_count = 0
@@ -274,26 +274,23 @@ class VirenConfig:
 
 
 # Global configuration instance
-_config_instance: Optional[VirenConfig] = None
+_config_instance: Optional[Config] = None
 
 
-def get_config() -> VirenConfig:
+def get_config() -> Config:
     """
-    Get the global configuration instance.
+    Get the global configuration instance (singleton pattern).
     
     Returns:
-        VirenConfig: The global configuration instance
+        Config: The global configuration instance
     """
     global _config_instance
     if _config_instance is None:
-        _config_instance = VirenConfig()
+        _config_instance = Config()
     return _config_instance
 
 
 def reload_config():
-    """Reload the global configuration instance."""
+    """Force reload of the configuration (useful for testing or config changes)."""
     global _config_instance
-    if _config_instance is not None:
-        _config_instance.reload()
-    else:
-        _config_instance = VirenConfig()
+    _config_instance = Config()
