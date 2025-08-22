@@ -57,12 +57,16 @@ $ cookiecutter https://github.com/ty10ng/python-template.git
 project_name [My Python Project]: Data Analysis Tool
 project_slug [data-analysis-tool]: 
 package_name [data_analysis_tool]: 
-project_description [A new Python project]: Tool for analyzing research data
+project_description [A brief description of your project]: Tool for analyzing research data
+python_version [3.11]: 
 project_type [library]: cli-application
 author_name [Your Name]: Tyler Long
 author_email [your.email@example.com]: ty@example.com
+github_username [your-username]: ty10ng
 include_docker [y]: n
 include_github_actions [y]: y
+include_pre_commit [y]: y
+license [MIT]: 
 ```
 
 ## Generated Project Structure
@@ -204,29 +208,46 @@ export LOG_LEVEL=DEBUG
 
 ## Project Types
 
+This template supports multiple project types, each tailored for specific use cases:
+
 ### Library
 
-- Standard Python package structure
-- Importable modules and functions
-- Comprehensive documentation
+- **Standard Python package structure** with modern packaging (pyproject.toml)
+- **Importable modules and functions** with proper package initialization
+- **Comprehensive configuration management** with environment variable support
+- **Security-aware logging** with configurable levels and safe output
+- **Testing framework** with pytest and coverage reporting
+- **Code quality tools** (black, flake8, mypy) with sensible defaults
+- **Development workflow** with optional GitHub Actions, Docker, and pre-commit hooks
 
 ### CLI Application
 
-- Command-line argument parsing
-- Help documentation
-- Error handling and user feedback
+All library features plus:
+- **Click-based command-line interface** with rich help formatting
+- **Rich console output** with tables, colors, and progress indicators
+- **Automatic entry point** installation via `pip install`
+- **Professional CLI structure** with commands, options, and error handling
+- **Built-in commands**: `status`, `hello`, `info` with extensible command structure
 
-### API Server
+Example CLI usage:
+```bash
+# After installation
+my-tool --help
+my-tool status
+my-tool hello "World" --count 3
 
-- REST API endpoint foundation
-- Request/response handling
-- API documentation structure
+# Or run directly
+python run_my_project.py --help
+```
 
-### Microservice
+### Future Expansions
 
-- Containerization support
-- Health check endpoints
-- Service discovery integration
+Planned additions include:
+
+- **API Server type**: FastAPI-based REST services with proper routing and documentation
+- **Microservice type**: Containerized services with health checks and service discovery
+
+Each type builds upon the core library foundation while adding specialized dependencies, entry points, and starter files.
 
 ## Best Practices
 

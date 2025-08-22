@@ -50,20 +50,7 @@ cp config.json config.local.json
 
 ### Usage
 
-{% if cookiecutter.project_type == 'cli-application' -%}
-#### CLI Usage
-
-```bash
-# Run the CLI application
-python run_{{cookiecutter.project_slug}}.py --help
-
-# Example commands
-python run_{{cookiecutter.project_slug}}.py --verbose
-python run_{{cookiecutter.project_slug}}.py --config config.yaml
-```
-
-#### Programmatic Usage
-{% endif -%}
+#### Library Usage
 
 ```python
 from {{cookiecutter.package_name}} import get_logger, get_config
@@ -165,9 +152,6 @@ Create a `config.local.json` file:
 │   ├── __init__.py           # Test package init
 │   ├── test_config.py        # Configuration tests
 │   └── test_core.py          # Core functionality tests
-{% if cookiecutter.project_type == 'cli-application' -%}
-├── run_{{cookiecutter.project_slug}}.py   # CLI entry point
-{% endif -%}
 ├── .env.example              # Environment template
 ├── config.json               # Configuration template
 ├── pyproject.toml            # Project configuration

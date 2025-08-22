@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
-        project-type: ["library", "cli-application", "api-server"]
+        project-type: ["library", "cli-application"]
 
     steps:
       - uses: actions/checkout@v4
@@ -165,8 +165,15 @@ jobs:
         if: matrix.project-type == 'cli-application'
         run: |
           cd test_project
+          echo "Testing CLI functionality..."
           python run_test_project.py --help
           echo "✅ CLI help command works"
+          python run_test_project.py status
+          echo "✅ CLI status command works"
+          python run_test_project.py hello World
+          echo "✅ CLI hello command works"
+          python -m test_project.cli --help
+          echo "✅ CLI module entry point works"
 
       - name: Test project structure
         run: |
@@ -180,4 +187,14 @@ jobs:
           [ -f "src/test_project/config.py" ] && echo "✅ config.py exists"
           [ -f "src/test_project/logger.py" ] && echo "✅ logger.py exists"
           [ -d "tests" ] && echo "✅ Tests directory exists"
+          
+          # CLI-specific structure tests
+          if [ "${{ matrix.project-type }}" = "cli-application" ]; then
+            [ -f "run_test_project.py" ] && echo "✅ CLI run script exists"
+            [ -f "src/test_project/cli.py" ] && echo "✅ CLI module exists"
+          else
+            [ ! -f "run_test_project.py" ] && echo "✅ No run script for library (correct)"
+            [ ! -f "src/test_project/cli.py" ] && echo "✅ No CLI module for library (correct)"
+          fi
+          
           echo "✅ Project structure validation passed"

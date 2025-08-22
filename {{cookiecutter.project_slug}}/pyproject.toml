@@ -1,6 +1,17 @@
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+]
+
+{%- if cookiecutter.project_type == "cli-application" %}
+[project.scripts]
+{{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
+{%- endif %}
+
+# Future project types can add scripts here:
+# For CLI applications:
+# {{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
+
+[project.urls]ckend = "setuptools.build_meta"
 
 [project]
 name = "{{cookiecutter.project_slug}}"
@@ -34,14 +45,14 @@ dependencies = [
     "pyyaml>=6.0",
     "python-dotenv>=1.0.0",
     "colorama>=0.4.6",
-{% if cookiecutter.project_type == 'api-server' -%}
-    "fastapi>=0.104.0",
-    "uvicorn[standard]>=0.24.0",
-{% elif cookiecutter.project_type == 'cli-application' -%}
+{%- if cookiecutter.project_type == "cli-application" %}
     "click>=8.1.0",
     "rich>=13.0.0",
-{% endif -%}
+{%- endif %}
 ]
+
+# Future project types can add dependencies here:
+# For API servers: "fastapi>=0.104.0", "uvicorn[standard]>=0.24.0"
 
 [project.optional-dependencies]
 dev = [
@@ -56,10 +67,10 @@ dev = [
 {% endif -%}
 ]
 
-{% if cookiecutter.project_type == 'cli-application' -%}
-[project.scripts]
-{{cookiecutter.package_name}} = "{{cookiecutter.package_name}}.cli:main"
-{% endif %}
+# Future project types can add scripts here:
+# [project.scripts]
+# For CLI applications:
+# {{cookiecutter.package_name}} = "{{cookiecutter.package_name}}.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}"
