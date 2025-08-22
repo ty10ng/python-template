@@ -1,0 +1,12 @@
+name: "ty10ng's Python Project Template"
+description: "Personal Python project template with security-aware logging, configuration management, and testing foundation"
+homepage: "https://github.com/ty10ng/python-template"
+repository: "https://github.com/ty10ng/python-template"
+topics:
+  - python
+  - cookiecutter-template
+  - project-template
+  - logging
+  - configuration
+  - testing
+  - personal-template

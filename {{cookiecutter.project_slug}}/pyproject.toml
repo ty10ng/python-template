@@ -1,0 +1,127 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{cookiecutter.project_slug}}"
+version = "0.1.0"
+description = "{{cookiecutter.project_description}}"
+authors = [
+    {name = "{{cookiecutter.author_name}}", email = "{{cookiecutter.author_email}}"},
+]
+readme = "README.md"
+requires-python = ">=3.{{cookiecutter.python_version.split('.')[1]}}"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+{% if cookiecutter.license == 'MIT' -%}
+    "License :: OSI Approved :: MIT License",
+{% elif cookiecutter.license == 'Apache-2.0' -%}
+    "License :: OSI Approved :: Apache Software License",
+{% elif cookiecutter.license == 'BSD-3-Clause' -%}
+    "License :: OSI Approved :: BSD License",
+{% elif cookiecutter.license == 'GPL-3.0' -%}
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+{% endif -%}
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.{{cookiecutter.python_version.split('.')[1]}}",
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "colorama>=0.4.6",
+{% if cookiecutter.project_type == 'api-server' -%}
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+{% elif cookiecutter.project_type == 'cli-application' -%}
+    "click>=8.1.0",
+    "rich>=13.0.0",
+{% endif -%}
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.9.0",
+    "flake8>=6.1.0",
+    "mypy>=1.6.0",
+    "types-pyyaml>=6.0.0",
+{% if cookiecutter.include_pre_commit == 'y' -%}
+    "pre-commit>=3.4.0",
+{% endif -%}
+]
+
+{% if cookiecutter.project_type == 'cli-application' -%}
+[project.scripts]
+{{cookiecutter.package_name}} = "{{cookiecutter.package_name}}.cli:main"
+{% endif %}
+
+[project.urls]
+Homepage = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}"
+Repository = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}"
+Issues = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py{{cookiecutter.python_version.replace('.', '')}}"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "{{cookiecutter.python_version}}"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".mypy_cache",
+]

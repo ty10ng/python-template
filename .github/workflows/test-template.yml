@@ -1,0 +1,53 @@
+name: Test Generated Project
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-template:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        project-type: ["library", "cli", "api_server"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install cookiecutter
+        run: |
+          python -m pip install --upgrade pip
+          pip install cookiecutter
+
+      - name: Generate project from template
+        run: |
+          cookiecutter template --no-input \
+            project_name="Test Project" \
+            project_slug="test_project" \
+            package_name="test_project" \
+            project_type="${{ matrix.project-type }}" \
+            author_name="Test Author" \
+            author_email="test@example.com"
+
+      - name: Install generated project dependencies
+        run: |
+          cd test_project
+          python -m pip install -e ".[dev]"
+
+      - name: Run tests on generated project
+        run: |
+          cd test_project
+          python -m pytest tests/ -v
+
+      - name: Test basic functionality
+        run: |
+          cd test_project
+          python test_project.py --help || python -c "import test_project; print('Import successful')"
