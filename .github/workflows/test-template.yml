@@ -35,7 +35,8 @@ jobs:
             package_name="test_project" \
             project_type="${{ matrix.project-type }}" \
             author_name="Test Author" \
-            author_email="test@example.com"
+            author_email="test@example.com" \
+            github_username="ty10ng"
 
       - name: Install generated project dependencies
         run: |
