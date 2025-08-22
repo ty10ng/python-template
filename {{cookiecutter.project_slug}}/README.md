@@ -165,6 +165,35 @@ pre-commit install
 {% endif %}
 ```
 
+### Alternative Dependency Management
+
+While this project uses standard `pyproject.toml` + `pip` (recommended for maximum compatibility), you can adapt it to other tools:
+
+#### **Poetry** (Popular Alternative)
+```bash
+# Convert to Poetry
+poetry init --no-interaction
+poetry add $(grep -E "^\s*\"" pyproject.toml | cut -d'"' -f2)
+poetry install
+```
+
+#### **Pipenv** (If You Prefer It)
+```bash
+# Create Pipfile from pyproject.toml dependencies
+pipenv install -e .
+pipenv install --dev pytest pytest-cov black flake8 mypy
+```
+
+#### **pip-tools** (For Lock Files)
+```bash
+# Generate lock file from pyproject.toml
+pip install pip-tools
+pip-compile pyproject.toml
+pip-sync requirements.txt
+```
+
+> **💡 Recommendation**: Stick with the default `pyproject.toml` + `pip` approach unless you have specific requirements. It's the modern Python standard and works everywhere.
+
 ### Running Tests
 
 ```bash
