@@ -174,16 +174,16 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_obj)
 
 
-class {{cookiecutter.package_name.title()}}Logger:
+class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
     """Enhanced thread-safe logger with security and performance improvements."""
     
-    _instance: Optional['{{cookiecutter.package_name.title()}}Logger'] = None
+    _instance: Optional['{{cookiecutter.package_name.replace('_', '').title()}}Logger'] = None
     _logger: Optional[logging.Logger] = None
     _audit_logger: Optional[logging.Logger] = None
     _lock = threading.RLock()  # Reentrant lock for nested calls
     _initialized = False
     
-    def __new__(cls) -> '{{cookiecutter.package_name.title()}}Logger':
+    def __new__(cls) -> '{{cookiecutter.package_name.replace('_', '').title()}}Logger':
         """Thread-safe singleton implementation."""
         if cls._instance is None:
             with cls._lock:
@@ -413,7 +413,7 @@ class {{cookiecutter.package_name.title()}}Logger:
 
 
 # Global logger instance
-_{{cookiecutter.package_name}}_logger = {{cookiecutter.package_name.title()}}Logger()
+_{{cookiecutter.package_name}}_logger = {{cookiecutter.package_name.replace('_', '').title()}}Logger()
 
 
 def get_logger(name: Optional[str] = None) -> logging.Logger:
