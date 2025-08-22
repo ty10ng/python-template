@@ -1,5 +1,5 @@
 """
-Enhanced modular logger configuration for project-viren.
+Enhanced modular logger configuration for {{cookiecutter.package_name}}.
 
 This module provides a centralized, secure, and performant logging system
 with thread safety, sensitive data filtering, and configuration integration.
