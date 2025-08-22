@@ -268,6 +268,12 @@ This template is a living project that evolves with my Python development journe
 
 > **Note**: Features get added when I actually need them in my projects, not just because they're trendy. This keeps the template practical and focused.
 
+## Development Approach
+
+This template was developed collaboratively with AI as a coding partner, bringing together human experience and AI perspective to create something better than either could build alone. The patterns and decisions remain under continuous review to ensure they serve real project needs.
+
+I believe in treating AI as a respectful collaborator - like working alongside a friend with a unique perspective. All design decisions ultimately reflect my development philosophy and real-world project experience.
+
 ## Contributing
 
 Found this useful? Have suggestions? Feel free to:
