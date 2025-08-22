@@ -1,5 +1,13 @@
 # {{cookiecutter.project_name}}
 
+[![CI](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/workflows/CI/badge.svg)](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/actions/workflows/ci.yml)
+[![Documentation](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/workflows/Documentation/badge.svg)](https://{{cookiecutter.github_username}}.github.io/{{cookiecutter.project_slug}})
+[![CodeQL](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/workflows/CodeQL%20Analysis/badge.svg)](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/badge)](https://securityscorecards.dev/viewer/?uri=github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}})
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![License: {{cookiecutter.license}}](https://img.shields.io/badge/License-{{cookiecutter.license.replace('-', '--')}}-yellow.svg)](LICENSE)
+[![Code style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
 {{cookiecutter.project_description}}
 
 ## Features
@@ -212,13 +220,16 @@ pytest tests/test_security.py
 
 ```bash
 # Format code
-black src/ tests/
+ruff format .
+
+# Lint code
+ruff check .
 
 # Type checking
 mypy src/
 
-# Linting
-flake8 src/ tests/
+# Run all pre-commit hooks
+pre-commit run --all-files
 ```
 
 ## Configuration Management

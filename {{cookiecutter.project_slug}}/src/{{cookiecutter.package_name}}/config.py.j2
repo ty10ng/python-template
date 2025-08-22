@@ -83,7 +83,7 @@ class Config:
         self.logger.info("Configuration loading complete")
     
     def _load_config_file(self, config_file_path: str):
-        """Load configuration from YAML file."""
+        """Load configuration from YAML or JSON file (auto-detected by extension)."""
         try:
             config_path = Path(config_file_path)
             
@@ -96,22 +96,37 @@ class Config:
                 return
             
             with open(config_path, 'r', encoding='utf-8') as f:
-                file_config = yaml.safe_load(f)
+                # Auto-detect format by file extension
+                file_extension = config_path.suffix.lower()
+                if file_extension in ['.yaml', '.yml']:
+                    file_config = yaml.safe_load(f)
+                    format_name = "YAML"
+                elif file_extension == '.json':
+                    import json
+                    file_config = json.load(f)
+                    format_name = "JSON"
+                else:
+                    # Default to YAML for unknown extensions
+                    self.logger.debug(f"Unknown extension {file_extension}, attempting YAML parsing")
+                    file_config = yaml.safe_load(f)
+                    format_name = "YAML"
             
             if file_config is None:
                 self.logger.warning(f"⚠️  Config file is empty: {config_file_path}")
                 return
             
             if not isinstance(file_config, dict):
-                self.logger.error(f"❌ Config file must contain a YAML dictionary: {config_file_path}")
+                self.logger.error(f"❌ Config file must contain a dictionary: {config_file_path}")
                 return
             
             # Merge file config into current config
             self._deep_merge_dict(self._config, file_config)
-            self.logger.info(f"✅ Loaded config file: {config_file_path}")
+            self.logger.info(f"✅ Loaded config file: {config_file_path} ({format_name} format)")
             
         except yaml.YAMLError as e:
             self.logger.error(f"❌ Error parsing YAML config file {config_file_path}: {e}")
+        except json.JSONDecodeError as e:
+            self.logger.error(f"❌ Error parsing JSON config file {config_file_path}: {e}")
         except Exception as e:
             self.logger.error(f"❌ Error loading config file {config_file_path}: {e}")
     
