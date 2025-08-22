@@ -1,17 +1,6 @@
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
-]
-
-{%- if cookiecutter.project_type == "cli-application" %}
-[project.scripts]
-{{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
-{%- endif %}
-
-# Future project types can add scripts here:
-# For CLI applications:
-# {{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
-
-[project.urls]ckend = "setuptools.build_meta"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{cookiecutter.project_slug}}"
@@ -67,15 +56,20 @@ dev = [
 {% endif -%}
 ]
 
+{%- if cookiecutter.project_type == "cli-application" %}
+[project.scripts]
+{{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
+{%- endif %}
+
 # Future project types can add scripts here:
-# [project.scripts]
 # For CLI applications:
-# {{cookiecutter.package_name}} = "{{cookiecutter.package_name}}.cli:main"
+# {{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}"
-Repository = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}"
-Issues = "https://github.com/{{cookiecutter.author_name.lower().replace(' ', '')}}/{{cookiecutter.project_slug}}/issues"
+Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+Documentation = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}#readme"
+Issues = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
