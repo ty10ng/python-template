@@ -51,8 +51,8 @@ class TestConfig:
         with patch.dict('os.environ', {'API_TIMEOUT': '90'}):
             config = Config(config_file=str(sample_config_file))
             
-            # Environment variable should win
-            assert config.get('api.timeout') == '90'
+            # Environment variable should win (converted to int)
+            assert config.get('api.timeout') == 90
             
             # File value should be used when no env var
             assert config.get('api.max_retries') == 3
