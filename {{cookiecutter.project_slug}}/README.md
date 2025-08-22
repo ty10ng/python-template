@@ -4,7 +4,7 @@
 
 ## Features
 
-- **🔍 Enterprise Logging**: Security-aware logging with sensitive data filtering
+- **🔍 Professional Logging**: Security-aware logging with sensitive data filtering
 - **🔒 Audit Trail**: Security events and compliance logging
 - **⚙️ Hierarchical Configuration**: YAML config files with environment variable overrides
 - **🔍 Environment Validation**: Automatic checking of required vs optional environment variables
@@ -28,7 +28,7 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
-pip install -e .
+pip install -e ".[dev]"
 ```
 
 ### Configuration
@@ -43,16 +43,32 @@ cp .env.example .env
 2. **Configuration File** (optional):
 
 ```bash
-cp config.example.yaml config.yaml
-# Customize your YAML configuration
+# Copy example configuration
+cp config.json config.local.json
+# Edit config.local.json with your settings
 ```
 
 ### Usage
 
+{% if cookiecutter.project_type == 'cli-application' -%}
+#### CLI Usage
+
+```bash
+# Run the CLI application
+python run_{{cookiecutter.project_slug}}.py --help
+
+# Example commands
+python run_{{cookiecutter.project_slug}}.py --verbose
+python run_{{cookiecutter.project_slug}}.py --config config.yaml
+```
+
+#### Programmatic Usage
+{% endif -%}
+
 ```python
 from {{cookiecutter.package_name}} import get_logger, get_config
 
-# Enterprise logging
+# Professional logging
 logger = get_logger(__name__)
 logger.info("Application started")
 logger.warning("This is a warning")
@@ -113,25 +129,27 @@ The application uses a hierarchical configuration system:
 
 **DEFAULTS < CONFIG_FILE < Environment Variables**
 
-| Variable                                            | Description                                 | Required |
-| --------------------------------------------------- | ------------------------------------------- | -------- |
-| `{{cookiecutter.package_name.upper()}}_LOG_LEVEL`   | Logging level (DEBUG, INFO, WARNING, ERROR) | No       |
-| `{{cookiecutter.package_name.upper()}}_CONFIG_FILE` | Path to YAML configuration file             | No       |
+| Variable | Description | Required |
+| -------- | ----------- | -------- |
+| `{{cookiecutter.package_name|upper}}_LOG_LEVEL` | Logging level (DEBUG, INFO, WARNING, ERROR) | No |
+| `{{cookiecutter.package_name|upper}}_CONFIG_FILE` | Path to YAML configuration file | No |
 
-### YAML Configuration
+### Configuration File
 
-Create a `config.yaml` file:
+Create a `config.local.json` file:
 
-```yaml
-logging:
-  level: INFO
-  console_level: INFO
-  file_level: DEBUG
-
-app:
-  debug: false
-  name: "{{cookiecutter.project_name}}"
-# Add your application-specific configuration here
+```json
+{
+  "logging": {
+    "level": "INFO",
+    "console_level": "INFO",
+    "file_level": "DEBUG"
+  },
+  "app": {
+    "debug": false,
+    "name": "{{cookiecutter.project_name}}"
+  }
+}
 ```
 
 ## Project Structure
@@ -142,18 +160,18 @@ app:
 │   ├── __init__.py           # Package exports
 │   ├── config.py             # Configuration management
 │   ├── core.py               # Application core logic
-│   ├── logger.py             # Enterprise logging system
-│   └── services.py           # Business logic services
+│   └── logger.py             # Professional logging system
 ├── tests/                    # Comprehensive test suite
+│   ├── __init__.py           # Test package init
 │   ├── test_config.py        # Configuration tests
-│   ├── test_core.py          # Core functionality tests
-│   ├── test_logger.py        # Logging tests
-│   └── fixtures/             # Test fixtures
-├── docs/                     # Documentation
-├── examples/                 # Usage examples
+│   └── test_core.py          # Core functionality tests
+{% if cookiecutter.project_type == 'cli-application' -%}
+├── run_{{cookiecutter.project_slug}}.py   # CLI entry point
+{% endif -%}
 ├── .env.example              # Environment template
-├── config.example.yaml       # Configuration template
-└── pyproject.toml           # Project configuration
+├── config.json               # Configuration template
+├── pyproject.toml            # Project configuration
+└── README.md                 # Project documentation
 ```
 
 ## Security Features
@@ -205,4 +223,4 @@ This project is private and proprietary.
 
 ---
 
-_Generated from the [Python Enterprise Template](https://github.com/your-username/python-enterprise-template)_
+_Generated from the [Python Professional Template](https://github.com/{{cookiecutter.github_username}}/python-template)_
