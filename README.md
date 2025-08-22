@@ -63,7 +63,9 @@ author_name [Your Name]: Tyler Long
 author_email [your.email@example.com]: ty@example.com
 include_docker [y]: n
 include_github_actions [y]: y
-```## Generated Project Structure
+```
+
+## Generated Project Structure
 
 ```
 data-analysis-tool/
@@ -72,17 +74,16 @@ data-analysis-tool/
 │       ├── __init__.py          # Package initialization
 │       ├── core.py              # Main application logic
 │       ├── config.py            # Configuration management
-│       ├── logger.py            # Security-aware logging
-│       └── services.py          # Service layer foundation
+│       └── logger.py            # Security-aware logging
 ├── tests/
-│   ├── conftest.py              # Test configuration
+│   ├── __init__.py              # Test package initialization
 │   ├── test_core.py             # Core functionality tests
 │   └── test_config.py           # Configuration tests
 ├── .env.example                 # Environment variables template
 ├── config.json                  # Default configuration
 ├── pyproject.toml              # Project metadata and dependencies
 ├── README.md                   # Generated project documentation
-└── data-analysis-tool.py       # Main entry point
+└── run_data-analysis-tool.py   # CLI entry point
 ```
 
 ## Key Components
