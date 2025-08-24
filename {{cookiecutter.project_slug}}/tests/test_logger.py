@@ -318,18 +318,17 @@ class TestMainLogger:
         with pytest.raises(ValueError):
             set_log_level("INVALID_LEVEL")
     
-    @patch('{{cookiecutter.package_name}}.logger.{{cookiecutter.package_name.replace('_', '').title()}}Logger')
-    def test_logger_singleton(self, mock_logger_class):
+    @patch('{{cookiecutter.package_name}}.logger._{{cookiecutter.package_name}}_logger')
+    def test_logger_singleton(self, mock_logger_instance):
         """Test that logger uses singleton pattern."""
-        mock_instance = MagicMock()
-        mock_logger_class.return_value = mock_instance
+        mock_logger_instance.get_logger = MagicMock()
         
         # Multiple calls should return the same instance
         logger1 = get_logger("test1")
         logger2 = get_logger("test2")
         
-        # The underlying logger class should be called to get loggers
-        assert mock_instance.get_logger.call_count >= 2
+        # The underlying logger instance should be called to get loggers
+        assert mock_logger_instance.get_logger.call_count >= 2
 
 
 class TestLoggerConfiguration:

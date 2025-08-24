@@ -19,13 +19,23 @@ class ExampleService:
         """Example method that processes data with logging."""
         self.logger.debug(f"Processing data: {data}")
         
-        if not data:
+        if data is None or data == "":
             self.logger.warning("Empty data received")
             return None
         
         try:
-            # Simulate some processing - convert to string to handle any data type
-            result = len(str(data))
+            # Check for empty data that has a length
+            if hasattr(data, '__len__') and len(data) == 0:
+                self.logger.warning("Empty data received")
+                return None
+            
+            # Return the actual length of the data based on its type
+            if hasattr(data, '__len__'):
+                result = len(data)
+            else:
+                # For scalar values, convert to string and get length
+                result = len(str(data))
+            
             self.logger.info(f"Successfully processed data, result: {result}")
             return result
             
