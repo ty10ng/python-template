@@ -1,0 +1,20 @@
+2025-08-24 20:35:24 | ERROR | test_coverage_check.src.test_coverage_check.config.Config | config.py:129 | _load_config_file | ❌ Error parsing JSON config file /tmp/tmp4mcep7hg/invalid_config.json: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2025-08-24 20:35:24 | ERROR | test_coverage_check.test_coverage_check.core.App | core.py:158 | run | Application failed with error: Test error
+2025-08-24 20:35:24 | ERROR | test_coverage_check.test_coverage_check.core.App | core.py:143 | _parse_env_example | Error parsing .env.example file: [Errno 2] No such file or directory: '/tmp/tmputsi5lyp/non_existent.env'
+2025-08-24 20:37:03 | ERROR | test_coverage_check.src.test_coverage_check.config.Config | config.py:129 | _load_config_file | ❌ Error parsing JSON config file /tmp/tmpr7ewfzmm/invalid_config.json: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2025-08-24 20:37:10 | ERROR | test_coverage_check.src.test_coverage_check.config.Config | config.py:129 | _load_config_file | ❌ Error parsing JSON config file /tmp/tmpjn8ewslv/invalid_config.json: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2025-08-24 20:37:10 | ERROR | test_coverage_check.test_coverage_check.core.App | core.py:158 | run | Application failed with error: Test error
+2025-08-24 20:37:10 | ERROR | test_coverage_check.test_coverage_check.core.App | core.py:143 | _parse_env_example | Error parsing .env.example file: [Errno 2] No such file or directory: '/tmp/tmpt3i13p3e/non_existent.env'
+2025-08-24 20:39:18 | ERROR | test_coverage_check.src.test_coverage_check.config.Config | config.py:129 | _load_config_file | ❌ Error parsing JSON config file /tmp/tmp9j6b53nu/invalid_config.json: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2025-08-24 20:39:18 | ERROR | test_coverage_check.test_coverage_check.core.App | core.py:158 | run | Application failed with error: Test error
+2025-08-24 20:39:18 | ERROR | test_coverage_check.test_coverage_check.core.App | core.py:143 | _parse_env_example | Error parsing .env.example file: [Errno 2] No such file or directory: '/tmp/tmp3prxxpmu/non_existent.env'
+2025-08-24 20:39:18 | ERROR | test_coverage_check.test.with.temp | test_logger.py:369 | test_logger_with_temp_directory | Test error message
+2025-08-24 20:39:18 | ERROR | test_coverage_check.integration.test | test_logger.py:391 | test_complete_logging_workflow | Error message
+2025-08-24 20:39:18 | CRITICAL | test_coverage_check.integration.test | test_logger.py:392 | test_complete_logging_workflow | Critical message
+2025-08-24 20:39:18 | ERROR | test_coverage_check.exception.test | test_logger.py:408 | test_exception_logging | Exception occurred during test
+Traceback (most recent call last):
+  File "/home/runner/work/python-template/python-template/test-coverage-check/tests/test_logger.py", line 406, in test_exception_logging
+    raise RuntimeError("Test exception for logging")
+RuntimeError: Test exception for logging
+2025-08-24 20:39:18 | ERROR | test_coverage_check.test_coverage_check.services.ExampleService | services.py:33 | process_data | Failed to process data: object of type 'int' has no len()
+2025-08-24 20:39:18 | ERROR | test_coverage_check.test_coverage_check.services.ExampleService | services.py:33 | process_data | Failed to process data: object of type 'int' has no len()

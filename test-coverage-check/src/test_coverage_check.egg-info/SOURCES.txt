@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/test_coverage_check/__init__.py
+src/test_coverage_check/config.py
+src/test_coverage_check/core.py
+src/test_coverage_check/logger.py
+src/test_coverage_check/services.py
+src/test_coverage_check.egg-info/PKG-INFO
+src/test_coverage_check.egg-info/SOURCES.txt
+src/test_coverage_check.egg-info/dependency_links.txt
+src/test_coverage_check.egg-info/requires.txt
+src/test_coverage_check.egg-info/top_level.txt
+tests/test_config.py
+tests/test_core.py
