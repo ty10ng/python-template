@@ -6,9 +6,11 @@ This module contains the main application logic and entry points.
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
-from .logger import get_logger
+
 from .config import get_config
+from .logger import get_logger
 
 # Initialize logger for this module
 logger = get_logger(__name__)
@@ -62,11 +64,10 @@ class App:
                 if var_info.get('optional', False):
                     status += " (optional)"
                 self.logger.info(f"{status} {var_name} found in environment")
+            elif var_info.get('optional', False):
+                missing_optional.append((var_name, var_info))
+                self.logger.debug(f"{var_name} (optional) not set in environment")
             else:
-                if var_info.get('optional', False):
-                    missing_optional.append((var_name, var_info))
-                    self.logger.debug(f"{var_name} (optional) not set in environment")
-                else:
                     missing_required.append((var_name, var_info))
                     self.logger.warning(f"⚠️  {var_name} not found in environment variables")
 
@@ -97,14 +98,14 @@ class App:
         variables = {}
 
         try:
-            with open(env_example_path, 'r', encoding='utf-8') as f:
+            with open(env_example_path, encoding='utf-8') as f:
                 lines = f.readlines()
 
             current_description = None
             is_optional = False
 
-            for line in lines:
-                line = line.strip()
+            for raw_line in lines:
+                line = raw_line.strip()
 
                 # Skip empty lines
                 if not line:

@@ -2,10 +2,10 @@
 Tests for the core module.
 """
 
-import pytest
-import os
-from unittest.mock import patch, MagicMock
 from pathlib import Path
+from unittest.mock import patch
+
+import pytest
 
 from {{ cookiecutter.package_name }}.core import App
 

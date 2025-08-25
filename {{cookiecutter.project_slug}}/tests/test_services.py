@@ -2,13 +2,12 @@
 Tests for the services module.
 """
 
-import importlib
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
-from {{ cookiecutter.package_name }}.services import ExampleService, example_function
 import {{ cookiecutter.package_name }}.services as services_module
-
+from {{ cookiecutter.package_name }}.services import ExampleService, example_function
 
 
 class TestExampleService:

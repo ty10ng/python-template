@@ -2,11 +2,12 @@
 Test configuration for {{ cookiecutter.package_name }}.
 """
 
-import pytest
-import tempfile
 import os
 import sys
+import tempfile
 from pathlib import Path
+
+import pytest
 
 # Add src directory to Python path for tests
 src_dir = Path(__file__).parent.parent / "src"

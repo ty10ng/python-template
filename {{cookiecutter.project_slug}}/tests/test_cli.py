@@ -277,11 +277,12 @@ class TestCLIEdgeCases:
 
 # Skip CLI tests for library projects
 {% else -%}
-# CLI tests are only applicable for CLI-type projects
 import pytest
+
 
 def test_cli_not_available():
     """Test that CLI module is not available for library projects."""
+    # CLI tests are only applicable for CLI-type projects
     try:
         from {{ cookiecutter.package_name }}.cli import cli  # noqa: F401
         pytest.fail("CLI module should not be available for library projects")

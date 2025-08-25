@@ -8,9 +8,11 @@ Environment variables take precedence over config file, which takes precedence o
 """
 
 import os
-import yaml
 from pathlib import Path
-from typing import Any, Dict, Optional, Union, ClassVar
+from typing import Any, ClassVar
+
+import yaml
+
 from .logger import get_logger
 
 # Initialize logger for this module
@@ -21,7 +23,7 @@ class Config:
     """Configuration manager with hierarchical loading and environment variable support."""
 
     # Default configuration values
-    DEFAULT_CONFIG: ClassVar[Dict[str, Any]] = {
+    DEFAULT_CONFIG: ClassVar[dict[str, Any]] = {
         'logging': {
             'level': 'INFO',
             'console_level': 'INFO',
@@ -48,7 +50,7 @@ class Config:
         }
     }
 
-    def __init__(self, config_file: Optional[str] = None, config_file_env_var: str = '{{ cookiecutter.package_name|upper }}_CONFIG_FILE'):
+    def __init__(self, config_file: str | None = None, config_file_env_var: str = '{{ cookiecutter.package_name|upper }}_CONFIG_FILE'):
         """
         Initialize the configuration manager.
 
@@ -59,7 +61,7 @@ class Config:
         self.config_file = config_file
         self.config_file_env_var = config_file_env_var
         self.logger = get_logger(f"{__name__}.{self.__class__.__name__}")
-        self._config: Dict[str, Any] = {}
+        self._config: dict[str, Any] = {}
         self._load_configuration()
 
     def _load_configuration(self):
@@ -95,7 +97,7 @@ class Config:
                 self.logger.warning(f"⚠️  Config path is not a file: {config_file_path}")
                 return
 
-            with open(config_path, 'r', encoding='utf-8') as f:
+            with open(config_path, encoding='utf-8') as f:
                 # Auto-detect format by file extension
                 file_extension = config_path.suffix.lower()
                 if file_extension in ['.yaml', '.yml']:
@@ -174,7 +176,7 @@ class Config:
         else:
             self.logger.debug("No environment variable overrides found")
 
-    def _convert_env_value(self, value: str, config_path: str) -> Any:
+    def _convert_env_value(self, value: str, config_path: str) -> Any:  # noqa: PLR0911
         """Convert environment variable string to appropriate type based on config path."""
         # Handle boolean values
         if config_path.endswith('.debug') or 'debug' in config_path.lower():
@@ -207,7 +209,7 @@ class Config:
         # Default to string
         return value
 
-    def _set_nested_value(self, config_dict: Dict, path: str, value: Any):
+    def _set_nested_value(self, config_dict: dict, path: str, value: Any):
         """Set a nested dictionary value using dot notation path."""
         keys = path.split('.')
         current = config_dict
@@ -221,7 +223,7 @@ class Config:
         # Set the final value
         current[keys[-1]] = value
 
-    def _deep_copy_dict(self, source: Dict) -> Dict:
+    def _deep_copy_dict(self, source: dict) -> dict:
         """Create a deep copy of a dictionary."""
         result = {}
         for key, value in source.items():
@@ -231,7 +233,7 @@ class Config:
                 result[key] = value
         return result
 
-    def _deep_merge_dict(self, target: Dict, source: Dict):
+    def _deep_merge_dict(self, target: dict, source: dict):
         """Deep merge source dictionary into target dictionary."""
         for key, value in source.items():
             if key in target and isinstance(target[key], dict) and isinstance(value, dict):
@@ -260,7 +262,7 @@ class Config:
         except (KeyError, TypeError):
             return default
 
-    def get_section(self, section: str) -> Dict[str, Any]:
+    def get_section(self, section: str) -> dict[str, Any]:
         """
         Get an entire configuration section.
 
@@ -272,7 +274,7 @@ class Config:
         """
         return self._config.get(section, {})
 
-    def get_all(self) -> Dict[str, Any]:
+    def get_all(self) -> dict[str, Any]:
         """Get the entire configuration dictionary."""
         return self._deep_copy_dict(self._config)
 
@@ -291,7 +293,7 @@ class Config:
 
 
 # Global configuration instance
-_config_instance: Optional[Config] = None
+_config_instance: Config | None = None
 
 
 def get_config() -> Config:
@@ -301,7 +303,7 @@ def get_config() -> Config:
     Returns:
         Config: The global configuration instance
     """
-    global _config_instance
+    global _config_instance  # noqa: PLW0603
     if _config_instance is None:
         _config_instance = Config()
     return _config_instance
@@ -309,5 +311,5 @@ def get_config() -> Config:
 
 def reload_config():
     """Force reload of the configuration (useful for testing or config changes)."""
-    global _config_instance
+    global _config_instance  # noqa: PLW0603
     _config_instance = Config()

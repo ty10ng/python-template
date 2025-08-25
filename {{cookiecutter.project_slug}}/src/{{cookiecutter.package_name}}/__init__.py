@@ -7,18 +7,29 @@ and environment variable validation for Python applications.
 
 __version__ = "0.1.0"
 
-from .logger import (
-    get_logger,
-    debug, info, warning, error, critical
-)
 from .config import get_config, reload_config
 from .core import App, main
+from .logger import (
+    critical,
+    debug,
+    error,
+    get_logger,
+    info,
+    warning,
+)
 
 __version__ = "0.1.0"
 __author__ = "{{ cookiecutter.author_name }}"
 
 __all__ = [
-    "get_logger", "debug", "info", "warning", "error", "critical",
-    "get_config", "reload_config",
-    "App", "main"
+    "App",
+    "critical",
+    "debug",
+    "error",
+    "get_config",
+    "get_logger",
+    "info",
+    "main",
+    "reload_config",
+    "warning",
 ]

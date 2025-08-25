@@ -15,24 +15,24 @@ requires-python = ">={{cookiecutter.python_version}}"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    {%- if cookiecutter.license == 'MIT' %}
+{%- if cookiecutter.license == 'MIT' %}
     "License :: OSI Approved :: MIT License",
-    {%- elif cookiecutter.license == 'Apache-2.0' %}
+{%- elif cookiecutter.license == 'Apache-2.0' %}
     "License :: OSI Approved :: Apache Software License",
-    {%- elif cookiecutter.license == 'BSD-3-Clause' %}
+{%- elif cookiecutter.license == 'BSD-3-Clause' %}
     "License :: OSI Approved :: BSD License",
-    {%- elif cookiecutter.license == 'GPL-3.0' %}
+{%- elif cookiecutter.license == 'GPL-3.0' %}
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    {%- endif %}
+{%- endif %}
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: {{cookiecutter.python_version}}",
-    {%- if cookiecutter.python_version|float >= 3.12 %}
+{%- if cookiecutter.python_version|float >= 3.12 %}
     "Programming Language :: Python :: 3.12",
-    {%- endif %}
-    {%- if cookiecutter.python_version|float >= 3.13 %}
+{%- endif %}
+{%- if cookiecutter.python_version|float >= 3.13 %}
     "Programming Language :: Python :: 3.13",
-    {%- endif %}
+{%- endif %}
 ]
 dependencies = [
     "pyyaml>=6.0",

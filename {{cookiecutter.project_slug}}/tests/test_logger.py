@@ -2,24 +2,22 @@
 Tests for the logger module.
 """
 
-import pytest
-import logging
-import tempfile
-import os
 import json
+import logging
 import sys
-from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 from {{ cookiecutter.package_name }}.logger import (
-    get_logger,
-    get_audit_logger,
-    log_security_event,
-    set_log_level,
-    SensitiveDataFilter,
     ColoredFormatter,
     JSONFormatter,
-    {{ cookiecutter.package_name.replace('_', '').title() }}Logger
+    SensitiveDataFilter,
+    {{ cookiecutter.package_name.replace('_', '').title() }}Logger,
+    get_audit_logger,
+    get_logger,
+    log_security_event,
+    set_log_level,
 )
 
 

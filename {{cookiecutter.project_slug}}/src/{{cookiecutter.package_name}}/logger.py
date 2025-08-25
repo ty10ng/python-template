@@ -5,16 +5,16 @@ This module provides a centralized, secure, and performant logging system
 with thread safety, sensitive data filtering, and configuration integration.
 """
 
+import json
 import logging
 import logging.handlers
-import sys
+import os
 import re
+import sys
 import threading
 from datetime import datetime
 from pathlib import Path
-import os
-from typing import Optional, Any, Dict, List, Union, ClassVar, ClassVar
-import json
+from typing import Any, ClassVar
 
 
 class SensitiveDataFilter(logging.Filter):
@@ -68,14 +68,14 @@ class SensitiveDataFilter(logging.Filter):
                     sanitized_dict = self._sanitize_dict(record.args)
                     record.args = (sanitized_dict,)
                 # Handle normal case where args is a tuple
-                elif isinstance(record.args, (tuple, list)):
-                    sanitized_args: List[Any] = []
+                elif isinstance(record.args, tuple | list):
+                    sanitized_args: list[Any] = []
                     for arg in record.args:
                         if isinstance(arg, str):
                             sanitized_args.append(self._sanitize_text(arg))
                         elif isinstance(arg, dict):
                             sanitized_args.append(self._sanitize_dict(arg))
-                        elif isinstance(arg, (list, tuple)):
+                        elif isinstance(arg, list | tuple):
                             sanitized_args.append(self._sanitize_sequence(arg))
                         else:
                             sanitized_args.append(arg)
@@ -88,8 +88,9 @@ class SensitiveDataFilter(logging.Filter):
 
     def _sanitize_text(self, text: str) -> str:
         """Apply all sanitization patterns to text."""
+        min_capture_groups = 2  # Minimum groups needed for prefix-value patterns
         for pattern in self.sensitive_patterns:
-            if pattern.groups >= 2:
+            if pattern.groups >= min_capture_groups:
                 # Patterns with capture groups (keep prefix, redact value)
                 text = pattern.sub(r'\1[REDACTED]', text)
             else:
@@ -97,7 +98,7 @@ class SensitiveDataFilter(logging.Filter):
                 text = pattern.sub('[REDACTED]', text)
         return text
 
-    def _sanitize_dict(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _sanitize_dict(self, data: dict[str, Any]) -> dict[str, Any]:
         """Sanitize dictionary values."""
         sanitized = {}
         for key, value in data.items():
@@ -111,7 +112,7 @@ class SensitiveDataFilter(logging.Filter):
                 sanitized[key] = self._sanitize_text(value)
             elif isinstance(value, dict):
                 sanitized[key] = self._sanitize_dict(value)
-            elif isinstance(value, (list, tuple)):
+            elif isinstance(value, list | tuple):
                 sanitized[key] = self._sanitize_sequence(value)
             else:
                 sanitized[key] = value
@@ -119,13 +120,13 @@ class SensitiveDataFilter(logging.Filter):
 
     def _sanitize_sequence(self, data):
         """Sanitize list or tuple values."""
-        sanitized: List[Any] = []
+        sanitized: list[Any] = []
         for item in data:
             if isinstance(item, str):
                 sanitized.append(self._sanitize_text(item))
             elif isinstance(item, dict):
                 sanitized.append(self._sanitize_dict(item))
-            elif isinstance(item, (list, tuple)):
+            elif isinstance(item, list | tuple):
                 sanitized.append(self._sanitize_sequence(item))
             else:
                 sanitized.append(item)
@@ -136,7 +137,7 @@ class ColoredFormatter(logging.Formatter):
     """Custom formatter to add colors to console output with security."""
 
     # ANSI color codes
-    COLORS: ClassVar[Dict[str, str]] = {
+    COLORS: ClassVar[dict[str, str]] = {
         'DEBUG': '\033[36m',      # Cyan
         'INFO': '\033[32m',       # Green
         'WARNING': '\033[33m',    # Yellow
@@ -194,13 +195,13 @@ class JSONFormatter(logging.Formatter):
 class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
     """Enhanced thread-safe logger with security and performance improvements."""
 
-    _instance: Optional['{{ cookiecutter.package_name.replace('_', '').title() }}Logger'] = None
-    _logger: Optional[logging.Logger] = None
-    _audit_logger: Optional[logging.Logger] = None
+    _instance = None
+    _logger: logging.Logger | None = None
+    _audit_logger: logging.Logger | None = None
     _lock = threading.RLock()  # Reentrant lock for nested calls
     _initialized = False
 
-    def __new__(cls) -> '{{ cookiecutter.package_name.replace('_', '').title() }}Logger':
+    def __new__(cls):
         """Thread-safe singleton implementation."""
         if cls._instance is None:
             with cls._lock:
@@ -387,7 +388,7 @@ class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
         except ValueError:
             return 10 * 1024 * 1024  # Default 10MB
 
-    def get_logger(self, name: Optional[str] = None) -> logging.Logger:
+    def get_logger(self, name: str | None = None) -> logging.Logger:
         """Get a logger instance."""
         if not self._logger:
             raise RuntimeError("Logger not initialized")
@@ -402,7 +403,7 @@ class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
             raise RuntimeError("Audit logger not initialized")
         return self._audit_logger
 
-    def log_security_event(self, event_type: str, details: Dict[str, Any], level: str = 'INFO'):
+    def log_security_event(self, event_type: str, details: dict[str, Any], level: str = 'INFO'):
         """Log a security event to the audit log."""
         if self._audit_logger:
             audit_data = {
@@ -414,7 +415,7 @@ class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
             log_level = getattr(logging, level.upper(), logging.INFO)
             self._audit_logger.log(log_level, json.dumps(audit_data))
 
-    def update_log_levels(self, console_level: Optional[str] = None, file_level: Optional[str] = None):
+    def update_log_levels(self, console_level: str | None = None, file_level: str | None = None):
         """Update log levels dynamically."""
         if not self._logger:
             return
@@ -433,7 +434,7 @@ class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
 _{{ cookiecutter.package_name }}_logger = {{ cookiecutter.package_name.replace('_', '').title() }}Logger()
 
 
-def get_logger(name: Optional[str] = None) -> logging.Logger:
+def get_logger(name: str | None = None) -> logging.Logger:
     """
     Get a logger instance for use throughout the project.
 
@@ -457,12 +458,12 @@ def get_audit_logger() -> logging.Logger:
     return _{{ cookiecutter.package_name }}_logger.get_audit_logger()
 
 
-def log_security_event(event_type: str, details: Dict[str, Any], level: str = 'INFO'):
+def log_security_event(event_type: str, details: dict[str, Any], level: str = 'INFO'):
     """Log a security event."""
     _{{ cookiecutter.package_name }}_logger.log_security_event(event_type, details, level)
 
 
-def set_log_level(console_level: Optional[str] = None, file_level: Optional[str] = None):
+def set_log_level(console_level: str | None = None, file_level: str | None = None):
     """
     Set log levels dynamically.
 

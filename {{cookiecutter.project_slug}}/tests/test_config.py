@@ -2,14 +2,9 @@
 Tests for the configuration module.
 """
 
-import pytest
-import tempfile
-import json
-from pathlib import Path
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
 
 from {{ cookiecutter.package_name }}.config import Config, get_config
-
 
 
 class TestConfig:

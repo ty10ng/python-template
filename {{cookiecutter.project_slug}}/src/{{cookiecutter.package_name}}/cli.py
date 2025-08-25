@@ -4,12 +4,11 @@ Command-line interface for {{ cookiecutter.project_name }}.
 This module provides the CLI entry point and command definitions.
 """
 
-import os
-import click
+import click  # noqa: I001
 from rich.console import Console
 from rich.table import Table
 
-from . import get_logger, get_config, __version__
+from . import __version__, get_config, get_logger
 
 
 console = Console()
@@ -124,9 +123,9 @@ def info(ctx):
 
     console.print("\n[bold blue]{{ cookiecutter.project_name }}[/bold blue]")
     console.print(f"Version: {__version__}")
-    console.print(f"Description: {{ cookiecutter.project_description }}")
-    console.print(f"Author: {{ cookiecutter.author_name }}")
-    console.print(f"Python Version: {{ cookiecutter.python_version }}+")
+    console.print("Description: {{ cookiecutter.project_description }}")
+    console.print("Author: {{ cookiecutter.author_name }}")
+    console.print("Python Version: {{ cookiecutter.python_version }}+")
 
     console.print("\n[bold blue]Configuration:[/bold blue]")
     config_data = config.get_all()
@@ -188,9 +187,10 @@ def main():
 def generate_man_page():
     """Entry point for man page generation."""
     try:
-        from click_man.core import write_man_pages
-        import sys
         import os
+        import sys
+
+        from click_man.core import write_man_pages
 
         if len(sys.argv) > 1:
             output_dir = sys.argv[1]
@@ -208,7 +208,7 @@ def generate_man_page():
         man_file = os.path.join(output_dir, "{{ cookiecutter.project_slug }}.1")
         print(f"✅ Man page generated: {man_file}")
         print(f"Install with: sudo cp {man_file} /usr/local/man/man1/")
-        print(f"View with: man {{ cookiecutter.project_slug }}")
+        print("View with: man {{ cookiecutter.project_slug }}")
 
     except ImportError:
         print("Error: click-man not installed. Install with: pip install click-man")
