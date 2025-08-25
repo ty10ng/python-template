@@ -173,4 +173,4 @@ See [Contributing Guide](contributing.md) for development guidelines.
 
 ---
 
-*Generated from the [Python Professional Template](https://github.com/{{cookiecutter.github_username}}/python-template)*
+*Generated from the [Python Professional Template](https://github.com/{{cookiecutter.github_username}}/python-template) - Practical Python project foundations*
