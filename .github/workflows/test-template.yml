@@ -52,18 +52,18 @@ jobs:
         run: |
           cd test-project
           echo "Cleaning up template artifacts..."
-          
+
           # Remove any remaining template files that shouldn't be in the generated project
           find . -name "*.jinja*" -delete 2>/dev/null || true
           find . -name "*cookiecutter*" -delete 2>/dev/null || true
-          
+
           # Fix common import issues
           echo "Fixing common code issues..."
-          
+
           # Auto-fix with ruff first
           ruff check --fix . || true
           ruff format . || true
-          
+
           echo "✅ Template cleanup completed"
 
       - name: Install and test pre-commit configuration
@@ -71,7 +71,7 @@ jobs:
           cd test-project
           pre-commit install
           echo "✅ Pre-commit hooks installed successfully"
-          
+
           # Only run pre-commit on actual generated files, not template files
           echo "Testing pre-commit on specific files..."
           pre-commit run --files src/test_project/*.py tests/test_*.py || echo "⚠️ Pre-commit found fixable issues"
@@ -82,7 +82,7 @@ jobs:
           echo "Auto-fixing Ruff issues..."
           ruff check --fix .
           echo "✅ Ruff auto-fix completed"
-          
+
           echo "Testing Ruff linting..."
           ruff check .
           echo "✅ Ruff linting passed"
@@ -90,7 +90,7 @@ jobs:
           echo "Auto-formatting with Ruff..."
           ruff format .
           echo "✅ Ruff formatting completed"
-          
+
           echo "Testing Ruff formatting..."
           ruff format --check .
           echo "✅ Ruff formatting check passed"
@@ -264,7 +264,7 @@ jobs:
           cd test-project
           echo "Running core functionality tests..."
           python -m pytest tests/ -v --tb=short -x || echo "⚠️ Some tests may fail in template environment (focusing on imports and basic functionality)"
-          
+
           echo "Testing basic imports..."
           python -c "
           import sys
