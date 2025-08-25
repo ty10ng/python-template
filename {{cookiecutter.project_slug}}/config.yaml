@@ -10,6 +10,7 @@ app:
 
 logging:
   level: INFO
+  format: json
   console_level: INFO
   file_level: DEBUG
   file_path: logs/{{cookiecutter.package_name}}.log
@@ -19,6 +20,7 @@ logging:
 api:
   timeout: 30
   max_retries: 3
+  retry_delay: 1
   base_url: null  # Set this to your API endpoint
 
 database:
@@ -29,6 +31,8 @@ database:
   pool_timeout: 30
 
 security:
+  secret_key: null  # Set via {{cookiecutter.package_name.upper()}}_SECRET_KEY environment variable
+  encryption_key: null  # Set via {{cookiecutter.package_name.upper()}}_ENCRYPTION_KEY environment variable
   mask_sensitive_data: true
   allowed_log_fields:
     - timestamp
@@ -36,6 +40,10 @@ security:
     - message
     - module
     - user_id  # Example of allowed ID field
+
+features:
+  caching: true
+  metrics: false
 
 # Add your custom configuration sections here
 # custom:

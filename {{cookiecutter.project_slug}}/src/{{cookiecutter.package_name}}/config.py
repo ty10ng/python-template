@@ -26,6 +26,7 @@ class Config:
     DEFAULT_CONFIG: ClassVar[dict[str, Any]] = {
         'logging': {
             'level': 'INFO',
+            'format': 'json',
             'console_level': 'INFO',
             'file_level': 'DEBUG',
             'file_path': 'logs/{{ cookiecutter.package_name }}.log',
@@ -35,6 +36,7 @@ class Config:
         'api': {
             'timeout': 30,
             'max_retries': 3,
+            'retry_delay': 1,
             'base_url': None
         },
         'database': {
@@ -42,6 +44,14 @@ class Config:
             'pool_size': 5,
             'max_overflow': 10,
             'pool_timeout': 30
+        },
+        'security': {
+            'secret_key': None,
+            'encryption_key': None
+        },
+        'features': {
+            'caching': True,
+            'metrics': False
         },
         'app': {
             'name': '{{ cookiecutter.package_name }}',
@@ -133,11 +143,17 @@ class Config:
             self.logger.error(f"❌ Error loading config file {config_file_path}: {e}")
 
     def _load_environment_overrides(self):
-        """Load environment variable overrides using a mapping system."""
+        """
+        Load environment variable overrides using a mapping system.
+        
+        All environment variables follow the pattern: {{cookiecutter.package_name.upper()}}_VARIABLE_NAME
+        This ensures consistent naming and avoids conflicts with system variables.
+        """
         # Define environment variable mappings to config paths
         env_mappings = {
             # Logging configuration
             '{{ cookiecutter.package_name|upper }}_LOG_LEVEL': 'logging.level',
+            '{{ cookiecutter.package_name|upper }}_LOG_FORMAT': 'logging.format',
             '{{ cookiecutter.package_name|upper }}_CONSOLE_LOG_LEVEL': 'logging.console_level',
             '{{ cookiecutter.package_name|upper }}_FILE_LOG_LEVEL': 'logging.file_level',
             '{{ cookiecutter.package_name|upper }}_LOG_FILE_PATH': 'logging.file_path',
@@ -145,15 +161,24 @@ class Config:
             '{{ cookiecutter.package_name|upper }}_LOG_BACKUP_COUNT': 'logging.backup_count',
 
             # API configuration
-            'API_TIMEOUT': 'api.timeout',
-            'MAX_RETRIES': 'api.max_retries',
-            'API_BASE_URL': 'api.base_url',
+            '{{ cookiecutter.package_name|upper }}_API_TIMEOUT': 'api.timeout',
+            '{{ cookiecutter.package_name|upper }}_MAX_RETRIES': 'api.max_retries',
+            '{{ cookiecutter.package_name|upper }}_RETRY_DELAY': 'api.retry_delay',
+            '{{ cookiecutter.package_name|upper }}_API_BASE_URL': 'api.base_url',
 
             # Database configuration
-            'DATABASE_URL': 'database.url',
-            'DB_POOL_SIZE': 'database.pool_size',
-            'DB_MAX_OVERFLOW': 'database.max_overflow',
-            'DB_POOL_TIMEOUT': 'database.pool_timeout',
+            '{{ cookiecutter.package_name|upper }}_DATABASE_URL': 'database.url',
+            '{{ cookiecutter.package_name|upper }}_DB_POOL_SIZE': 'database.pool_size',
+            '{{ cookiecutter.package_name|upper }}_DB_MAX_OVERFLOW': 'database.max_overflow',
+            '{{ cookiecutter.package_name|upper }}_DB_POOL_TIMEOUT': 'database.pool_timeout',
+
+            # Security configuration
+            '{{ cookiecutter.package_name|upper }}_SECRET_KEY': 'security.secret_key',
+            '{{ cookiecutter.package_name|upper }}_ENCRYPTION_KEY': 'security.encryption_key',
+
+            # Feature flags
+            '{{ cookiecutter.package_name|upper }}_ENABLE_CACHING': 'features.caching',
+            '{{ cookiecutter.package_name|upper }}_ENABLE_METRICS': 'features.metrics',
 
             # App configuration
             '{{ cookiecutter.package_name|upper }}_APP_NAME': 'app.name',

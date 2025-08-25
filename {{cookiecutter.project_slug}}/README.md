@@ -45,6 +45,10 @@ pip install -e ".[dev]"
 
 ### Configuration
 
+The configuration system uses a hierarchical approach with clear precedence:
+
+**Environment Variables** (highest precedence) → **Config File** → **Defaults** (lowest precedence)
+
 1. **Environment Setup**:
 
 ```bash
@@ -52,13 +56,20 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
+**Important**: All environment variables follow the pattern `{{cookiecutter.package_name.upper()}}_VARIABLE_NAME`. For example:
+- `{{cookiecutter.package_name.upper()}}_DEBUG=true`
+- `{{cookiecutter.package_name.upper()}}_LOG_LEVEL=INFO`
+- `{{cookiecutter.package_name.upper()}}_API_TIMEOUT=30`
+
 2. **Configuration File** (optional):
 
 ```bash
 # Copy example configuration
-cp config.json config.local.json
-# Edit config.local.json with your settings
+cp config.yaml config.local.yaml
+# Edit config.local.yaml with your settings
 ```
+
+The config file uses YAML format with nested keys. Environment variables can override any config value using dot notation converted to the naming pattern above.
 
 ### Usage
 
