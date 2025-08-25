@@ -135,7 +135,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["PLR2004", "S101", "TID252"]
+"tests/*" = ["PLR2004", "S101", "TID252", "PLC0415"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["{{cookiecutter.package_name}}"]
