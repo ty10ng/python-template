@@ -41,7 +41,7 @@ class ExampleService:
 
         except Exception as e:
             self.logger.error(f"Failed to process data: {e}")
-            raise
+            raise ValueError(f"Failed to process data: cannot process due to {e}") from e
 
 
 def example_function():

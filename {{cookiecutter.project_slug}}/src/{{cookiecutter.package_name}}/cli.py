@@ -24,7 +24,7 @@ logger = get_logger(__name__)
 )
 @click.option(
     "--config", "-c",
-    type=click.Path(exists=True),
+    type=click.Path(),
     help="Path to configuration file"
 )
 @click.pass_context
@@ -151,15 +151,17 @@ def info(ctx):
 def generate_man(ctx, output):
     """Generate man page for the CLI application."""
     try:
-        import click_man  # noqa: PLC0415
+        from click_man.core import write_man_pages  # noqa: PLC0415
+        import os  # noqa: PLC0415
 
         console.print(f"Generating man page: {output}")
 
-        # Generate the man page
-        man_page = click_man.generate_man_page(cli)
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(output) or "."
+        os.makedirs(output_dir, exist_ok=True)
 
-        with open(output, 'w') as f:
-            f.write(man_page)
+        # Generate the man page using write_man_pages
+        write_man_pages(cli, output_dir)
 
         console.print(f"✅ Man page generated: {output}")
         console.print(f"Install with: sudo cp {output} /usr/local/man/man1/")
@@ -223,9 +225,6 @@ try:
     import click_man
 except ImportError:
     click_man = None
-
-# Alias for testing compatibility
-write_man_pages = generate_man_page
 
 
 if __name__ == "__main__":
