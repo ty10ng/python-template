@@ -395,13 +395,6 @@ This template focuses on **real-world usefulness** rather than theoretical compl
 - **Testing patterns** that catch real bugs and maintain code quality
 - **Configuration management** that works in different deployment environments
 
-### **Practical Over Perfect**
-This template focuses on **real-world usefulness** rather than theoretical completeness:
-- **Security practices** that actually matter for business applications
-- **Professional tooling** that users expect from quality CLI tools
-- **Testing patterns** that catch real bugs and maintain code quality
-- **Configuration management** that works in different deployment environments
-
 ### **Opinionated But Flexible**
 I've made specific choices about tools and patterns based on experience:
 - **Ruff + mypy** for code quality (fast, comprehensive)
