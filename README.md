@@ -72,7 +72,7 @@ $ cookiecutter https://github.com/ty10ng/python-template.git
 project_name [My Python Project]: Data Analysis Tool
 project_slug [data-analysis-tool]:
 package_name [data_analysis_tool]:
-project_description [A brief description of your project]: Enterprise tool for analyzing research data
+project_description [A brief description of your project]: Tool for analyzing research data
 python_version [3.11]:
 project_type [library]: cli-application
 author_name [Your Name]: Tyler Long
@@ -385,6 +385,8 @@ This template evolves based on real Python development needs and lessons learned
 - Monitoring integration (when projects need observability)
 
 > **Approach**: Features get added when they solve real problems in actual projects, not because they're trendy or theoretically complete.
+
+## Development Philosophy
 
 ## Development Philosophy
 
