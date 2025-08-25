@@ -11,9 +11,9 @@ import pytest
 
 from {{ cookiecutter.package_name }}.logger import (
     ColoredFormatter,
+    {{ cookiecutter.package_name.replace('_', '').title() }}Logger,
     JSONFormatter,
     SensitiveDataFilter,
-    {{ cookiecutter.package_name.replace('_', '').title() }}Logger,
     get_audit_logger,
     get_logger,
     log_security_event,
