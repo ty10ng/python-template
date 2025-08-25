@@ -132,8 +132,8 @@ database_url = config.get('database.url')    # From env or config file
 
 **Configuration Hierarchy** (highest priority first):
 
-1. Environment variables (e.g., `API_TIMEOUT`)
-2. Configuration file (`config.json`)
+1. Environment variables (e.g., `MYAPP_API_TIMEOUT`)
+2. Configuration file (`config.yaml`)
 3. Default values
 
 ### Security-Aware Logging (`logger.py`)
@@ -160,12 +160,14 @@ The template includes comprehensive environment variable management:
 
 ```bash
 # .env.example shows required and optional variables
-# Required variables
-DATABASE_URL=postgresql://localhost/mydb
+# All variables use PACKAGE_NAME_VARIABLE format
+MYAPP_DATABASE_URL=postgresql://localhost/mydb
+MYAPP_API_TIMEOUT=30
+MYAPP_DEBUG=true
 
-# OPTIONAL
 # Optional feature flags
-FEATURE_ENABLED=false
+MYAPP_ENABLE_CACHING=false
+MYAPP_ENABLE_METRICS=true
 ```
 
 **Environment Checking**:
@@ -352,7 +354,7 @@ Each type builds upon the core library foundation while adding specialized depen
 
 - ✅ Use the hierarchical configuration system
 - ✅ Document all variables in `.env.example`
-- ✅ Provide sensible defaults in `config.json`
+- ✅ Provide sensible defaults in `config.yaml`
 - ✅ Validate required configuration early
 
 ### Testing

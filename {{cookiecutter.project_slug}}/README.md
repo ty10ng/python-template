@@ -288,7 +288,7 @@ Create a `config.local.json` file:
 │   ├── test_config.py        # Configuration tests
 │   └── test_core.py          # Core functionality tests
 ├── .env.example              # Environment template
-├── config.json               # Configuration template
+├── config.yaml               # Configuration template
 ├── pyproject.toml            # Project configuration
 └── README.md                 # Project documentation
 ```
