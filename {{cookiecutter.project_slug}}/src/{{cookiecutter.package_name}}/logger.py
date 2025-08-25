@@ -55,8 +55,8 @@ class SensitiveDataFilter(logging.Filter):
             # Sanitize the message
             if hasattr(record, 'msg'):
                 if record.msg is None:
-                    # Force an exception for None messages to test exception handling
-                    raise ValueError("None message cannot be sanitized")
+                    # Gracefully handle None messages; optionally replace with a default string
+                    pass  # Leave as None, or set to "[NO MESSAGE]" if desired
                 elif isinstance(record.msg, str):
                     record.msg = self._sanitize_text(record.msg)
             
