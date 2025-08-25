@@ -3,7 +3,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 
 default_language_version:
-  python: python{{cookiecutter.python_version}}
+  python: python3
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -20,7 +20,7 @@ repos:
       - id: debug-statements
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.8
+    rev: v0.8.1
     hooks:
       # Run the linter
       - id: ruff
@@ -47,11 +47,11 @@ repos:
       - id: python-no-log-warn
       - id: python-use-type-annotations
 
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.2
+  - repo: https://github.com/pypa/pip-audit
+    rev: v2.7.3
     hooks:
-      - id: python-safety-dependencies-check
-        args: [--ignore=70612]  # Ignore Jinja2 vulnerability in dev deps
+      - id: pip-audit
+        args: [--desc]
 
 ci:
   autofix_commit_msg: |
@@ -62,5 +62,5 @@ ci:
   autoupdate_branch: ''
   autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
   autoupdate_schedule: weekly
-  skip: [python-safety-dependencies-check]  # Skip safety check in CI
+  skip: [pip-audit]  # Skip pip-audit check in CI
   submodules: false
