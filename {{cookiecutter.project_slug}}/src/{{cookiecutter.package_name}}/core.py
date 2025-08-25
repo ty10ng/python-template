@@ -68,8 +68,8 @@ class App:
                 missing_optional.append((var_name, var_info))
                 self.logger.debug(f"{var_name} (optional) not set in environment")
             else:
-                    missing_required.append((var_name, var_info))
-                    self.logger.warning(f"⚠️  {var_name} not found in environment variables")
+                missing_required.append((var_name, var_info))
+                self.logger.warning(f"⚠️  {var_name} not found in environment variables")
 
         # Summary logging for required variables only
         if missing_required:

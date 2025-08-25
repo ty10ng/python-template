@@ -331,4 +331,4 @@ This project is private and proprietary.
 
 ---
 
-_Generated from the [Python Professional Template](https://github.com/{{cookiecutter.github_username}}/python-template)_
+_Generated from the [Python Professional Template](https://github.com/{{cookiecutter.github_username}}/python-template) - Practical Python project foundations_

@@ -68,14 +68,14 @@ class SensitiveDataFilter(logging.Filter):
                     sanitized_dict: dict[str, Any] = self._sanitize_dict(record.args)
                     record.args = (sanitized_dict,)
                 # Handle normal case where args is a tuple
-                elif isinstance(record.args, tuple | list):
+                elif isinstance(record.args, (tuple, list)):
                     sanitized_args: list[Any] = []
                     for arg in record.args:
                         if isinstance(arg, str):
                             sanitized_args.append(self._sanitize_text(arg))
                         elif isinstance(arg, dict):
                             sanitized_args.append(self._sanitize_dict(arg))
-                        elif isinstance(arg, list | tuple):
+                        elif isinstance(arg, (list, tuple)):
                             sanitized_args.append(self._sanitize_sequence(arg))
                         else:
                             sanitized_args.append(arg)
@@ -112,7 +112,7 @@ class SensitiveDataFilter(logging.Filter):
                 sanitized[key] = self._sanitize_text(value)
             elif isinstance(value, dict):
                 sanitized[key] = self._sanitize_dict(value)
-            elif isinstance(value, list | tuple):
+            elif isinstance(value, (list, tuple)):
                 sanitized[key] = self._sanitize_sequence(value)
             else:
                 sanitized[key] = value
@@ -126,7 +126,7 @@ class SensitiveDataFilter(logging.Filter):
                 sanitized.append(self._sanitize_text(item))
             elif isinstance(item, dict):
                 sanitized.append(self._sanitize_dict(item))
-            elif isinstance(item, list | tuple):
+            elif isinstance(item, (list, tuple)):
                 sanitized.append(self._sanitize_sequence(item))
             else:
                 sanitized.append(item)
