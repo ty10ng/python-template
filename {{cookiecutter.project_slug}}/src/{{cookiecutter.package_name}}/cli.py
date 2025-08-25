@@ -151,7 +151,7 @@ def info(ctx):
 def generate_man(ctx, output):
     """Generate man page for the CLI application."""
     try:
-        import click_man
+        import click_man  # noqa: PLC0415
 
         console.print(f"Generating man page: {output}")
 
@@ -187,10 +187,10 @@ def main():
 def generate_man_page():
     """Entry point for man page generation."""
     try:
-        import os
-        import sys
+        import os  # noqa: PLC0415
+        import sys  # noqa: PLC0415
 
-        from click_man.core import write_man_pages
+        from click_man.core import write_man_pages  # noqa: PLC0415
 
         if len(sys.argv) > 1:
             output_dir = sys.argv[1]

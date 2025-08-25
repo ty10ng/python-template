@@ -192,7 +192,7 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_obj, default=str)
 
 
-class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
+class ProjectLogger:
     """Enhanced thread-safe logger with security and performance improvements."""
 
     _instance = None
@@ -222,7 +222,7 @@ class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
     def _get_config(self):
         """Get configuration with fallback."""
         try:
-            from .config import get_config
+            from .config import get_config  # noqa: PLC0415
             return get_config()
         except ImportError:
             # Fallback configuration if config system isn't available
@@ -431,7 +431,7 @@ class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
 
 
 # Global logger instance
-_{{ cookiecutter.package_name }}_logger = {{ cookiecutter.package_name.replace('_', '').title() }}Logger()
+_{{ cookiecutter.package_name }}_logger = ProjectLogger()
 
 
 def get_logger(name: str | None = None) -> logging.Logger:

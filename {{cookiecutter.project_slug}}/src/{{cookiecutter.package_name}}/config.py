@@ -104,7 +104,7 @@ class Config:
                     file_config = yaml.safe_load(f)
                     format_name = "YAML"
                 elif file_extension == '.json':
-                    import json
+                    import json  # noqa: PLC0415
                     file_config = json.load(f)
                     format_name = "JSON"
                 else:

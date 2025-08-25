@@ -12,8 +12,8 @@ import pytest
 from {{ cookiecutter.package_name }}.logger import (
     ColoredFormatter,
     JSONFormatter,
+    ProjectLogger,
     SensitiveDataFilter,
-    {{ cookiecutter.package_name.replace('_', '').title() }}Logger,
     get_audit_logger,
     get_logger,
     log_security_event,
@@ -341,7 +341,7 @@ class TestLoggerConfiguration:
 
     def test_parse_file_size(self):
         """Test file size parsing functionality."""
-        logger_instance = {{ cookiecutter.package_name.replace('_', '').title() }}Logger()
+        logger_instance = ProjectLogger()
 
         # Test various size formats
         assert logger_instance._parse_file_size("1024") == 1024
