@@ -1,8 +1,10 @@
 # ty10ng's Python Project Template
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Cookiecutter](https://img.shields.io/badge/cookiecutter-template-blue.svg)](https://github.com/cookiecutter/cookiecutter)
+[![Code style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Security: OpenSSF Scorecard](https://img.shields.io/badge/OpenSSF-Scorecard-blue)](https://github.com/ossf/scorecard)
 
 My personal [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for Python projects. This is a living template that evolves as I learn and develop better patterns for Python development. It includes the foundations I've found useful in my own projects - feel free to use it if it helps your projects too!
 
@@ -61,10 +63,10 @@ You'll be prompted for project details like name, description, and which feature
 $ cookiecutter https://github.com/ty10ng/python-template.git
 
 project_name [My Python Project]: Data Analysis Tool
-project_slug [data-analysis-tool]: 
-package_name [data_analysis_tool]: 
+project_slug [data-analysis-tool]:
+package_name [data_analysis_tool]:
 project_description [A brief description of your project]: Tool for analyzing research data
-python_version [3.11]: 
+python_version [3.11]:
 project_type [library]: cli-application
 author_name [Your Name]: Tyler Long
 author_email [your.email@example.com]: ty@example.com
@@ -72,7 +74,7 @@ github_username [your-username]: ty10ng
 include_docker [y]: n
 include_github_actions [y]: y
 include_pre_commit [y]: y
-license [MIT]: 
+license [MIT]:
 ```
 
 ## Generated Project Structure
@@ -263,7 +265,7 @@ This template supports multiple project types, each tailored for specific use ca
 - **Comprehensive configuration management** with environment variable support
 - **Security-aware logging** with configurable levels and safe output
 - **Testing framework** with pytest and coverage reporting
-- **Code quality tools** (black, flake8, mypy) with sensible defaults
+- **Code quality tools** (Ruff, mypy) with sensible defaults
 - **Development workflow** with optional GitHub Actions, Docker, and pre-commit hooks
 
 ### CLI Application
@@ -322,11 +324,18 @@ Each type builds upon the core library foundation while adding specialized depen
 
 This template is a living project that evolves with my Python development journey. As I discover new patterns, tools, or techniques that improve my development workflow, I'll incorporate them here.
 
+### Recent Additions (2024)
+- **✅ Modern tooling consolidation** - Replaced black/flake8/isort with Ruff + mypy
+- **✅ Supply chain hardening** - Added CodeQL, Dependabot, OpenSSF Scorecard workflows
+- **✅ Trusted Publisher to PyPI** - OIDC publishing without manual token management
+- **✅ Comprehensive CI/CD** - SHA-pinned GitHub Actions with Python 3.11-3.13 matrix
+- **✅ Documentation pipeline** - MkDocs Material with automated GitHub Pages deployment
+- **✅ Enhanced security** - Pre-commit hooks, security scanning, vulnerability reporting
+
 ### Current Focus Areas
 - **Better testing patterns** - Exploring property-based testing and test automation
-- **Development tooling** - Integrating more helpful pre-commit hooks and formatting tools  
-- **Documentation** - Finding better ways to maintain project documentation
 - **Performance** - Adding profiling and performance monitoring patterns
+- **API patterns** - Standardizing REST API development patterns
 
 ### Future Considerations
 - Container deployment patterns (when I work more with Docker/Kubernetes)

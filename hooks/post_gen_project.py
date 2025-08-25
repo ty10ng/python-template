@@ -31,27 +31,27 @@ def remove_directory(dirpath):
 
 def main():
     """Main post-generation logic."""
-    
+
     project_type = "{{ cookiecutter.project_type }}"
-    
+
     if project_type == "library":
         # Libraries don't need run scripts or CLI modules
         run_script = f"run_{{ cookiecutter.project_slug }}.py"
         remove_file(run_script)
-        
+
         # Remove CLI module for library projects
         cli_module = "src/{{ cookiecutter.package_name }}/cli.py"
         remove_file(cli_module)
-        
+
         print("✅ Library project configured - removed CLI components")
-        
+
     elif project_type == "cli-application":
         # CLI apps keep the run script and CLI module
         print("✅ CLI application project configured - kept CLI components")
-        
+
     else:
         print(f"⚠️  Unknown project type: {project_type}")
-    
+
     print("✅ Project generation completed successfully!")
 
 
