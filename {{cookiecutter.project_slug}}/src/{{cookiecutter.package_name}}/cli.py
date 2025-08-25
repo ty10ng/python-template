@@ -32,23 +32,23 @@ logger = get_logger(__name__)
 def cli(ctx, verbose, config):
     """
     {{ cookiecutter.project_name }} - {{ cookiecutter.project_description }}
-    
+
     A professional CLI application with comprehensive logging and configuration.
     """
     # Ensure context object exists
     ctx.ensure_object(dict)
-    
+
     # Store options in context
     ctx.obj['verbose'] = verbose
     ctx.obj['config'] = config
-    
+
     # Configure logging based on verbosity
     if verbose:
         logger.info("Verbose mode enabled")
-    
+
     if verbose:
         logger.info("Verbose mode enabled")
-    
+
     if config:
         logger.info(f"Using config file: {config}")
 
@@ -58,18 +58,18 @@ def cli(ctx, verbose, config):
 def status(ctx):
     """Show application status and configuration."""
     config = get_config()
-    
+
     # Create a status table
     table = Table(title="{{ cookiecutter.project_name }} Status")
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="green")
-    
+
     table.add_row("Version", __version__)
     table.add_row("App Name", config.get('app.name', 'Unknown'))
     table.add_row("Environment", config.get('app.environment', 'development'))
     table.add_row("Log Level", config.get('logging.level', 'INFO'))
     table.add_row("Verbose Mode", str(ctx.obj.get('verbose', False)))
-    
+
     console.print(table)
     logger.info("Status command executed")
 
@@ -112,7 +112,7 @@ def hello(ctx, name, count):
         if ctx.obj.get('verbose'):
             message += f" (greeting {i + 1}/{count})"
         console.print(message, style="bold green")
-    
+
     logger.info(f"Greeted {name} {count} time(s)")
 
 
@@ -121,13 +121,13 @@ def hello(ctx, name, count):
 def info(ctx):
     """Show detailed application information."""
     config = get_config()
-    
+
     console.print("\n[bold blue]{{ cookiecutter.project_name }}[/bold blue]")
     console.print(f"Version: {__version__}")
     console.print(f"Description: {{ cookiecutter.project_description }}")
     console.print(f"Author: {{ cookiecutter.author_name }}")
     console.print(f"Python Version: {{ cookiecutter.python_version }}+")
-    
+
     console.print("\n[bold blue]Configuration:[/bold blue]")
     for key, value in config.data.items():
         if isinstance(value, dict):
@@ -136,7 +136,7 @@ def info(ctx):
                 console.print(f"    {subkey}: {subvalue}")
         else:
             console.print(f"  {key}: {value}")
-    
+
     logger.info("Info command executed")
 
 
@@ -152,21 +152,21 @@ def generate_man(ctx, output):
     """Generate man page for the CLI application."""
     try:
         import click_man
-        
+
         console.print(f"Generating man page: {output}")
-        
+
         # Generate the man page
         man_page = click_man.generate_man_page(cli)
-        
+
         with open(output, 'w') as f:
             f.write(man_page)
-        
+
         console.print(f"✅ Man page generated: {output}")
         console.print(f"Install with: sudo cp {output} /usr/local/man/man1/")
         console.print(f"View with: man {output.replace('.1', '')}")
-        
+
         logger.info(f"Man page generated: {output}")
-        
+
     except ImportError:
         console.print("[red]Error: click-man not installed. Install with: pip install click-man[/red]")
     except Exception as e:
@@ -190,25 +190,25 @@ def generate_man_page():
         from click_man.core import write_man_pages
         import sys
         import os
-        
+
         if len(sys.argv) > 1:
             output_dir = sys.argv[1]
         else:
             output_dir = "."
-        
+
         print(f"Generating man page in directory: {output_dir}")
-        
+
         # Create output directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
-        
+
         # Generate the man page
         write_man_pages(cli, output_dir)
-        
+
         man_file = os.path.join(output_dir, "{{cookiecutter.project_slug}}.1")
         print(f"✅ Man page generated: {man_file}")
         print(f"Install with: sudo cp {man_file} /usr/local/man/man1/")
         print(f"View with: man {{cookiecutter.project_slug}}")
-        
+
     except ImportError:
         print("Error: click-man not installed. Install with: pip install click-man")
         sys.exit(1)

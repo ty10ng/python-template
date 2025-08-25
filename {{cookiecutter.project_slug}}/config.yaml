@@ -1,3 +1,4 @@
+---
 # Configuration file for {{cookiecutter.project_name}}
 # This file provides default configuration values that can be overridden
 # by environment variables. See README.md for details.
@@ -21,7 +22,8 @@ api:
   base_url: null  # Set this to your API endpoint
 
 database:
-  url: null  # Set this to your database URL (e.g., postgresql://user:pass@host:port/db)
+  url: null  # Set this to your database URL
+  # Example: postgresql://user:pass@host:port/db
   pool_size: 5
   max_overflow: 10
   pool_timeout: 30

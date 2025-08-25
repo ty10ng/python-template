@@ -47,7 +47,7 @@ This template follows a practical, experience-driven approach:
    # Test library generation
    cookiecutter . --no-input project_type=library
 
-   # Test CLI generation  
+   # Test CLI generation
    cookiecutter . --no-input project_type=cli-application
 
    # Clean up test projects

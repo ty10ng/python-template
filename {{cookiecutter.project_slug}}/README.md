@@ -112,7 +112,7 @@ The CLI supports auto-completion for major shells:
 {{ cookiecutter.package_name }} --install-completion bash
 source ~/.bashrc
 
-# Zsh  
+# Zsh
 {{ cookiecutter.package_name }} --install-completion zsh
 source ~/.zshrc
 

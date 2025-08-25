@@ -31,10 +31,10 @@ Thank you for considering contributing to {{cookiecutter.project_name}}! This do
    ```bash
    # Run tests to ensure everything works
    pytest
-   
+
    # Run linting
    ruff check .
-   
+
    # Run type checking
    mypy src/
    ```
@@ -57,14 +57,14 @@ Thank you for considering contributing to {{cookiecutter.project_name}}! This do
    ```bash
    # Run all tests
    pytest
-   
+
    # Run with coverage
    pytest --cov={{cookiecutter.package_name}}
-   
+
    # Run linting and formatting
    ruff check .
    ruff format .
-   
+
    # Run type checking
    mypy src/
    ```
@@ -127,7 +127,7 @@ git commit -m "docs: update installation instructions"
 # Unit tests
 pytest tests/test_config.py
 
-# Integration tests  
+# Integration tests
 pytest tests/test_integration.py
 
 # Security tests
@@ -154,17 +154,17 @@ pytest tests/test_performance.py
 ```python
 def load_config(file_path: str) -> dict:
     """Load configuration from a YAML file.
-    
+
     Args:
         file_path: Path to the YAML configuration file.
-        
+
     Returns:
         Dictionary containing the configuration data.
-        
+
     Raises:
         FileNotFoundError: If the configuration file doesn't exist.
         yaml.YAMLError: If the file contains invalid YAML.
-        
+
     Example:
         >>> config = load_config("config.yaml")
         >>> print(config["app"]["name"])

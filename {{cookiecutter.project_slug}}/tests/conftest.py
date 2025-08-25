@@ -29,18 +29,18 @@ def mock_env_vars():
         'API_KEY': 'mock_api_key',
         'DEBUG': 'true'
     }
-    
+
     # Store original values
     original_values = {}
     for key in test_vars:
         original_values[key] = os.getenv(key)
-    
+
     # Set test values
     for key, value in test_vars.items():
         os.environ[key] = value
-    
+
     yield test_vars
-    
+
     # Restore original values
     for key, original_value in original_values.items():
         if original_value is None:

@@ -63,10 +63,10 @@ You'll be prompted for project details like name, description, and which feature
 $ cookiecutter https://github.com/ty10ng/python-template.git
 
 project_name [My Python Project]: Data Analysis Tool
-project_slug [data-analysis-tool]: 
-package_name [data_analysis_tool]: 
+project_slug [data-analysis-tool]:
+package_name [data_analysis_tool]:
 project_description [A brief description of your project]: Tool for analyzing research data
-python_version [3.11]: 
+python_version [3.11]:
 project_type [library]: cli-application
 author_name [Your Name]: Tyler Long
 author_email [your.email@example.com]: ty@example.com
@@ -74,7 +74,7 @@ github_username [your-username]: ty10ng
 include_docker [y]: n
 include_github_actions [y]: y
 include_pre_commit [y]: y
-license [MIT]: 
+license [MIT]:
 ```
 
 ## Generated Project Structure

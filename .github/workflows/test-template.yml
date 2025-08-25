@@ -56,7 +56,7 @@ jobs:
           echo "Testing Ruff linting..."
           ruff check .
           echo "✅ Ruff linting passed"
-          
+
           echo "Testing Ruff formatting..."
           ruff format --check .
           echo "✅ Ruff formatting check passed"
@@ -81,22 +81,22 @@ jobs:
           PYTHONPATH=src python -c "
           import sys
           sys.path.insert(0, 'src')
-          
+
           import test_project
           from test_project import get_logger, get_config
           from test_project.config import Config
           print('✅ All imports successful')
-          
+
           # Test logger
           logger = get_logger('test')
           logger.info('Test log message')
           print('✅ Logger works')
-          
+
           # Test config
           config = get_config()
           app_name = config.get('app.name', 'default')
           print(f'✅ Config works: app.name = {app_name}')
-          
+
           print('✅ All basic functionality tests passed')
           "
 
@@ -106,22 +106,22 @@ jobs:
           PYTHONPATH=src python -c "
           import sys
           sys.path.insert(0, 'src')
-          
+
           from test_project import get_logger, info, warning, error
           from test_project.logger import TestprojectLogger
-          
+
           # Test singleton pattern
           logger1 = TestprojectLogger()
           logger2 = TestprojectLogger()
           assert logger1 is logger2, 'Logger should be singleton'
           print('✅ Logger singleton pattern works')
-          
+
           # Test convenience functions
           info('Test info message')
           warning('Test warning message')
           error('Test error message')
           print('✅ Logger convenience functions work')
-          
+
           # Test named logger
           named_logger = get_logger('test.module')
           named_logger.info('Named logger test')
@@ -134,15 +134,15 @@ jobs:
           PYTHONPATH=src python -c "
           import sys
           sys.path.insert(0, 'src')
-          
+
           import os
           from test_project.config import Config, get_config, reload_config
-          
+
           # Test default config
           config = get_config()
           default_name = config.get('app.name')
           print(f'✅ Default config loaded: {default_name}')
-          
+
           # Test environment variable override
           os.environ['TEST_PROJECT_APP_NAME'] = 'test-from-env'
           reload_config()
@@ -150,7 +150,7 @@ jobs:
           env_name = config.get('app.name')
           assert env_name == 'test-from-env', f'Expected test-from-env, got {env_name}'
           print('✅ Environment variable override works')
-          
+
           # Test nested config access
           log_level = config.get('logging.level', 'INFO')
           print(f'✅ Nested config access works: logging.level = {log_level}')
@@ -162,13 +162,13 @@ jobs:
           PYTHONPATH=src python -c "
           import sys
           sys.path.insert(0, 'src')
-          
+
           from test_project.logger import SensitiveDataFilter
           import logging
-          
+
           # Test sensitive data filtering
           filter_instance = SensitiveDataFilter()
-          
+
           # Create a test log record
           record = logging.LogRecord(
               name='test',
@@ -179,12 +179,12 @@ jobs:
               args=(),
               exc_info=None
           )
-          
+
           # Apply filter
           result = filter_instance.filter(record)
           assert '[REDACTED]' in record.getMessage(), 'Sensitive data should be redacted'
           print('✅ Sensitive data filtering works')
-          
+
           print('✅ Security features test passed')
           "
 
@@ -219,7 +219,7 @@ jobs:
           [ -f "src/test_project/config.py" ] && echo "✅ config.py exists"
           [ -f "src/test_project/logger.py" ] && echo "✅ logger.py exists"
           [ -d "tests" ] && echo "✅ Tests directory exists"
-          
+
           # CLI-specific structure tests
           if [ "${{ matrix.project-type }}" = "cli-application" ]; then
             [ -f "run_test_project.py" ] && echo "✅ CLI run script exists"
@@ -228,5 +228,5 @@ jobs:
             [ ! -f "run_test_project.py" ] && echo "✅ No run script for library (correct)"
             [ ! -f "src/test_project/cli.py" ] && echo "✅ No CLI module for library (correct)"
           fi
-          
+
           echo "✅ Project structure validation passed"
