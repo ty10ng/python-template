@@ -2,19 +2,22 @@
 Tests for the CLI module (only applicable for CLI projects).
 """
 {% if cookiecutter.project_type == "cli-application" -%}
+from unittest.mock import patch
+
 import pytest
-import click
 from click.testing import CliRunner
-from unittest.mock import patch, MagicMock
 
 from {{ cookiecutter.package_name }}.cli import (
     cli,
-    status,
     completion,
+    console,
+    generate_man,
+    generate_man_page,
     hello,
     info,
-    generate_man,
-    main
+    logger,
+    main,
+    status,
 )
 
 
@@ -134,7 +137,8 @@ app:
         def failing_command():
             raise RuntimeError("Test error")
 
-        result = self.runner.invoke(cli, ['failing-command'])
+        # Test the command handles errors gracefully
+        self.runner.invoke(cli, ['failing-command'])
         # The command should handle the error gracefully
         # (Depending on implementation, might exit with non-zero or catch)
 
@@ -150,7 +154,6 @@ class TestCLIIntegration:
         """Test the main CLI entry point."""
         # This tests the main() function that would be called from console scripts
         with patch('{{ cookiecutter.package_name }}.cli.cli') as mock_cli:
-            from {{ cookiecutter.package_name }}.cli import main
             main()
             mock_cli.assert_called_once()
 
@@ -164,7 +167,6 @@ class TestCLIIntegration:
 
                     # Should handle exception and not crash
                     with pytest.raises(RuntimeError):
-                        from {{ cookiecutter.package_name }}.cli import main
                         main()
 
                     # Should log the error
@@ -175,7 +177,6 @@ class TestCLIIntegration:
         """Test the generate_man_page entry point function."""
         with patch('{{ cookiecutter.package_name }}.cli.write_man_pages') as mock_write:
             with patch('sys.argv', ['prog', '/tmp']):
-                from {{ cookiecutter.package_name }}.cli import generate_man_page
                 generate_man_page()
                 mock_write.assert_called_once()
 
@@ -183,7 +184,6 @@ class TestCLIIntegration:
         """Test generate_man_page when click-man is not available."""
         with patch('{{ cookiecutter.package_name }}.cli.write_man_pages', side_effect=ImportError):
             with pytest.raises(SystemExit) as exc_info:
-                from {{ cookiecutter.package_name }}.cli import generate_man_page
                 generate_man_page()
             assert exc_info.value.code == 1
 
@@ -191,7 +191,6 @@ class TestCLIIntegration:
         """Test generate_man_page with general exception."""
         with patch('{{ cookiecutter.package_name }}.cli.write_man_pages', side_effect=Exception("Test error")):
             with pytest.raises(SystemExit) as exc_info:
-                from {{ cookiecutter.package_name }}.cli import generate_man_page
                 generate_man_page()
             assert exc_info.value.code == 1
 
@@ -219,10 +218,6 @@ class TestCLIHelpers:
     def test_cli_imports(self):
         """Test that all CLI components can be imported."""
         # This test ensures all imports work correctly
-        from {{ cookiecutter.package_name }}.cli import (
-            cli, status, completion, hello, info, generate_man, main
-        )
-
         assert cli is not None
         assert status is not None
         assert completion is not None
@@ -233,8 +228,6 @@ class TestCLIHelpers:
 
     def test_cli_console_object(self):
         """Test that console object is properly initialized."""
-        from {{ cookiecutter.package_name }}.cli import console
-
         assert console is not None
         # Should be a Rich Console instance
         assert hasattr(console, 'print')
@@ -242,8 +235,6 @@ class TestCLIHelpers:
 
     def test_cli_logger_object(self):
         """Test that logger object is properly initialized."""
-        from {{ cookiecutter.package_name }}.cli import logger
-
         assert logger is not None
         # Should be a logging.Logger instance
         assert hasattr(logger, 'info')
@@ -291,6 +282,9 @@ import pytest
 
 def test_cli_not_available():
     """Test that CLI module is not available for library projects."""
-    with pytest.raises(ImportError):
-        from {{ cookiecutter.package_name }}.cli import cli
+    try:
+        from {{ cookiecutter.package_name }}.cli import cli  # noqa: F401
+        pytest.fail("CLI module should not be available for library projects")
+    except ImportError:
+        pass  # Expected for library projects
 {% endif -%}

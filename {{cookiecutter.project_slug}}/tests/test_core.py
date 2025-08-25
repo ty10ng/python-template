@@ -123,6 +123,6 @@ OPTIONAL_VAR=value
 
         # Mock the path resolution to point to our temp file
         with patch.object(Path, 'parent', new_callable=lambda: temp_dir):
-            app = App()
+            App()  # Test that app initializes without errors
             # This should run without errors and log appropriately
             # The actual logging assertions would require capturing log output

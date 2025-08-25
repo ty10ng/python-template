@@ -315,7 +315,7 @@ class TestMainLogger:
 
     def test_set_invalid_log_level(self):
         """Test setting an invalid log level."""
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Invalid log level"):
             set_log_level("INVALID_LEVEL")
 
     @patch('{{ cookiecutter.package_name }}.logger._{{ cookiecutter.package_name }}_logger')
@@ -324,8 +324,8 @@ class TestMainLogger:
         mock_logger_instance.get_logger = MagicMock()
 
         # Multiple calls should return the same instance
-        logger1 = get_logger("test1")
-        logger2 = get_logger("test2")
+        get_logger("test1")
+        get_logger("test2")
 
         # The underlying logger instance should be called to get loggers
         assert mock_logger_instance.get_logger.call_count >= 2

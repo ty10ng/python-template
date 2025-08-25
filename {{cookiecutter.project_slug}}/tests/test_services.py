@@ -2,10 +2,13 @@
 Tests for the services module.
 """
 
+import importlib
 import pytest
 from unittest.mock import patch, MagicMock
 
 from {{ cookiecutter.package_name }}.services import ExampleService, example_function
+import {{ cookiecutter.package_name }}.services as services_module
+
 
 
 class TestExampleService:
@@ -134,7 +137,7 @@ class TestExampleService:
 
         bad_data = BadData()
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="cannot process"):
             service.process_data(bad_data)
 
         # Verify error was logged
@@ -210,7 +213,6 @@ class TestServiceModuleIntegration:
 
     def test_service_module_imports(self):
         """Test that all expected components can be imported."""
-        from {{ cookiecutter.package_name }}.services import ExampleService, example_function
 
         assert ExampleService is not None
         assert example_function is not None
@@ -269,7 +271,6 @@ class TestServiceModuleRuntime:
     def test_module_main_execution(self):
         """Test that module can be executed as main."""
         # Import and test the module's main execution path
-        import {{ cookiecutter.package_name }}.services as services_module
 
         # Should not raise any exceptions when imported
         assert services_module is not None
@@ -279,7 +280,6 @@ class TestServiceModuleRuntime:
         """Test that main execution calls example_function."""
         # This tests the if __name__ == "__main__" block
         import importlib
-        import {{ cookiecutter.package_name }}.services as services_module
 
         # Simulate running as main
         with patch.object(services_module, '__name__', '__main__'):

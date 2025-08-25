@@ -8,8 +8,8 @@ import json
 from pathlib import Path
 from unittest.mock import patch, mock_open
 
-# Note: Import will be dynamically resolved when template is rendered
-# from {{ cookiecutter.package_name }}.config import Config, get_config
+from {{ cookiecutter.package_name }}.config import Config, get_config
+
 
 
 class TestConfig:
@@ -17,8 +17,6 @@ class TestConfig:
 
     def test_config_initialization(self):
         """Test that Config initializes with defaults."""
-        from src.{{ cookiecutter.package_name }}.config import Config
-
         config = Config()
         assert config is not None
         # Should have some default values
@@ -26,8 +24,6 @@ class TestConfig:
 
     def test_config_with_file(self, sample_config_file):
         """Test loading configuration from file."""
-        from src.{{ cookiecutter.package_name }}.config import Config
-
         config = Config(config_file=str(sample_config_file))
 
         # Check that values from file are loaded
@@ -37,8 +33,6 @@ class TestConfig:
 
     def test_config_with_env_vars(self):
         """Test that environment variables override configuration."""
-        from src.{{ cookiecutter.package_name }}.config import Config
-
         with patch.dict('os.environ', {'API_TIMEOUT': '60'}):
             config = Config()
             # Environment variable should override default (converted to int)
@@ -46,7 +40,6 @@ class TestConfig:
 
     def test_config_hierarchy(self, sample_config_file):
         """Test configuration hierarchy: env vars > config file > defaults."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         with patch.dict('os.environ', {'API_TIMEOUT': '90'}):
             config = Config(config_file=str(sample_config_file))
@@ -62,7 +55,6 @@ class TestConfig:
 
     def test_get_config_singleton(self):
         """Test that get_config returns a singleton."""
-        from src.{{ cookiecutter.package_name }}.config import get_config
 
         config1 = get_config()
         config2 = get_config()
@@ -71,7 +63,6 @@ class TestConfig:
 
     def test_config_get_with_default(self):
         """Test getting configuration values with defaults."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         config = Config()
 
@@ -83,7 +74,6 @@ class TestConfig:
 
     def test_config_invalid_file(self, temp_dir):
         """Test handling of invalid configuration file."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Create an invalid JSON file
         invalid_config = temp_dir / "invalid_config.json"
@@ -97,7 +87,6 @@ class TestConfig:
 
     def test_config_missing_file(self):
         """Test handling when configuration file doesn't exist."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Should not raise exception
         config = Config(config_file="non_existent_file.json")
@@ -107,7 +96,6 @@ class TestConfig:
 
     def test_config_directory_instead_of_file(self, temp_dir):
         """Test handling when config path points to directory instead of file."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Create a directory instead of a file
         config_dir = temp_dir / "config_dir"
@@ -121,7 +109,6 @@ class TestConfig:
 
     def test_config_yaml_file_loading(self, temp_dir):
         """Test loading configuration from YAML file."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Create a YAML config file
         yaml_config_content = """
@@ -145,7 +132,6 @@ logging:
 
     def test_config_unknown_extension_fallback_to_yaml(self, temp_dir):
         """Test that unknown file extensions fallback to YAML parsing."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Create a file with unknown extension but YAML content
         unknown_config_content = """
@@ -164,7 +150,6 @@ api:
 
     def test_config_empty_file_handling(self, temp_dir):
         """Test handling of empty configuration files."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Create an empty file
         empty_config_file = temp_dir / "empty.yaml"
@@ -178,7 +163,6 @@ api:
 
     def test_config_non_dict_content(self, temp_dir):
         """Test handling when config file contains non-dictionary content."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         # Create a file with non-dict content (a list)
         list_config_content = """
@@ -197,7 +181,6 @@ api:
 
     def test_config_env_variable_type_conversion(self):
         """Test environment variable type conversion."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         with patch.dict('os.environ', {
             'API_TIMEOUT': '120',  # Should convert to int
@@ -217,7 +200,6 @@ api:
 
     def test_config_env_variable_invalid_conversion(self):
         """Test handling of invalid environment variable values."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         with patch.dict('os.environ', {
             'API_TIMEOUT': 'not_a_number',  # Invalid integer
@@ -231,7 +213,6 @@ api:
 
     def test_config_reload_functionality(self, sample_config_file):
         """Test configuration reload functionality."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         config = Config(config_file=str(sample_config_file))
         original_timeout = config.get('api.timeout')
@@ -257,7 +238,6 @@ api:
 
     def test_config_get_section(self):
         """Test getting entire configuration sections."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         config = Config()
 
@@ -273,7 +253,6 @@ api:
 
     def test_config_get_all(self):
         """Test getting the entire configuration."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         config = Config()
 
@@ -290,7 +269,6 @@ api:
 
     def test_config_dict_access(self):
         """Test dictionary-style access to config."""
-        from src.{{ cookiecutter.package_name }}.config import Config
 
         config = Config()
 
