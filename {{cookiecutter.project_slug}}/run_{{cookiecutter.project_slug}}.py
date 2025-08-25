@@ -17,7 +17,7 @@ src_path = Path(__file__).parent / "src"
 sys.path.insert(0, str(src_path))
 
 {%- if cookiecutter.project_type == "cli-application" %}
-from {{ cookiecutter.package_name }}.cli import main
+from {{ cookiecutter.package_name }}.cli import main  # noqa: E402
 {%- else %}
 from {{ cookiecutter.package_name }}.core import main
 {%- endif %}

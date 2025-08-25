@@ -10,7 +10,7 @@ Environment variables take precedence over config file, which takes precedence o
 import os
 import yaml
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, ClassVar
 from .logger import get_logger
 
 # Initialize logger for this module
@@ -18,10 +18,10 @@ logger = get_logger(__name__)
 
 
 class Config:
-    """Hierarchical configuration manager for {{ cookiecutter.package_name }}."""
+    """Configuration manager with hierarchical loading and environment variable support."""
 
     # Default configuration values
-    DEFAULT_CONFIG = {
+    DEFAULT_CONFIG: ClassVar[Dict[str, Any]] = {
         'logging': {
             'level': 'INFO',
             'console_level': 'INFO',
@@ -59,7 +59,7 @@ class Config:
         self.config_file = config_file
         self.config_file_env_var = config_file_env_var
         self.logger = get_logger(f"{__name__}.{self.__class__.__name__}")
-        self._config = {}
+        self._config: Dict[str, Any] = {}
         self._load_configuration()
 
     def _load_configuration(self):
@@ -75,7 +75,7 @@ class Config:
         if config_file_path:
             self._load_config_file(config_file_path)
         else:
-            self.logger.debug(f"ℹ️  No config file specified in {self.config_file_env_var}")
+            self.logger.debug(f"No config file specified in {self.config_file_env_var}")
 
         # Override with environment variables
         self._load_environment_overrides()
@@ -172,7 +172,7 @@ class Config:
         if override_count > 0:
             self.logger.info(f"✅ Applied {override_count} environment variable override(s)")
         else:
-            self.logger.debug("ℹ️  No environment variable overrides found")
+            self.logger.debug("No environment variable overrides found")
 
     def _convert_env_value(self, value: str, config_path: str) -> Any:
         """Convert environment variable string to appropriate type based on config path."""

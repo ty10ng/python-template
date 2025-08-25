@@ -13,7 +13,7 @@ import threading
 from datetime import datetime
 from pathlib import Path
 import os
-from typing import Optional, Any, Dict
+from typing import Optional, Any, Dict, List, Union, ClassVar, ClassVar
 import json
 
 
@@ -69,7 +69,7 @@ class SensitiveDataFilter(logging.Filter):
                     record.args = (sanitized_dict,)
                 # Handle normal case where args is a tuple
                 elif isinstance(record.args, (tuple, list)):
-                    sanitized_args = []
+                    sanitized_args: List[Any] = []
                     for arg in record.args:
                         if isinstance(arg, str):
                             sanitized_args.append(self._sanitize_text(arg))
@@ -119,7 +119,7 @@ class SensitiveDataFilter(logging.Filter):
 
     def _sanitize_sequence(self, data):
         """Sanitize list or tuple values."""
-        sanitized = []
+        sanitized: List[Any] = []
         for item in data:
             if isinstance(item, str):
                 sanitized.append(self._sanitize_text(item))
@@ -136,7 +136,7 @@ class ColoredFormatter(logging.Formatter):
     """Custom formatter to add colors to console output with security."""
 
     # ANSI color codes
-    COLORS = {
+    COLORS: ClassVar[Dict[str, str]] = {
         'DEBUG': '\033[36m',      # Cyan
         'INFO': '\033[32m',       # Green
         'WARNING': '\033[33m',    # Yellow

@@ -49,10 +49,6 @@ class App:
             self.logger.info("No environment variables defined in .env.example")
             return
 
-        # Separate required and optional variables
-        required_vars = {name: info for name, info in all_vars.items() if not info.get('optional', False)}
-        optional_vars = {name: info for name, info in all_vars.items() if info.get('optional', False)}
-
         # Check each variable
         missing_required = []
         missing_optional = []
@@ -69,7 +65,7 @@ class App:
             else:
                 if var_info.get('optional', False):
                     missing_optional.append((var_name, var_info))
-                    self.logger.debug(f"ℹ️  {var_name} (optional) not set in environment")
+                    self.logger.debug(f"{var_name} (optional) not set in environment")
                 else:
                     missing_required.append((var_name, var_info))
                     self.logger.warning(f"⚠️  {var_name} not found in environment variables")

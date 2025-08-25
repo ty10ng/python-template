@@ -7,6 +7,7 @@ import logging
 import tempfile
 import os
 import json
+import sys
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
@@ -255,7 +256,6 @@ class TestJSONFormatter:
         try:
             raise ValueError("Test exception")
         except ValueError:
-            import sys
             exc_info = sys.exc_info()
 
         record = logging.LogRecord(
