@@ -151,8 +151,9 @@ def info(ctx):
 def generate_man(ctx, output):
     """Generate man page for the CLI application."""
     try:
-        from click_man.core import write_man_pages  # noqa: PLC0415
         import os  # noqa: PLC0415
+
+        from click_man.core import write_man_pages  # noqa: PLC0415
 
         console.print(f"Generating man page: {output}")
 
