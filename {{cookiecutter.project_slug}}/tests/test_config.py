@@ -28,7 +28,7 @@ class TestConfig:
 
     def test_config_with_env_vars(self):
         """Test that environment variables override configuration."""
-        with patch.dict('os.environ', {'{{ cookiecutter.package_name |upper }}_API_TIMEOUT': '60'}):
+        with patch.dict('os.environ', {'{{cookiecutter.package_name|upper}}_API_TIMEOUT': '60'}):
             config = Config()
             # Environment variable should override default (converted to int)
             assert config.get('api.timeout') == 60
@@ -36,7 +36,7 @@ class TestConfig:
     def test_config_hierarchy(self, sample_config_file):
         """Test configuration hierarchy: env vars > config file > defaults."""
 
-        with patch.dict('os.environ', {'{{ cookiecutter.package_name |upper }}_API_TIMEOUT': '90'}):
+        with patch.dict('os.environ', {'{{cookiecutter.package_name|upper}}_API_TIMEOUT': '90'}):
             config = Config(config_file=str(sample_config_file))
 
             # Environment variable should win (converted to int)
