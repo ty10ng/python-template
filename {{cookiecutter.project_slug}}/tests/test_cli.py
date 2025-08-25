@@ -7,7 +7,7 @@ import click
 from click.testing import CliRunner
 from unittest.mock import patch, MagicMock
 
-from {{cookiecutter.package_name}}.cli import (
+from {{ cookiecutter.package_name }}.cli import (
     cli,
     status,
     completion,
@@ -95,7 +95,7 @@ class TestCLICommands:
         assert '{{ cookiecutter.author_name }}' in result.output
         assert 'Configuration' in result.output
 
-    @patch('{{cookiecutter.package_name}}.cli.click_man')
+    @patch('{{ cookiecutter.package_name }}.cli.click_man')
     def test_generate_man_command_success(self, mock_click_man):
         """Test man page generation when click-man is available."""
         # Mock successful man page generation
@@ -108,7 +108,7 @@ class TestCLICommands:
 
     def test_generate_man_command_missing_dependency(self):
         """Test man page generation when click-man is not available."""
-        with patch('{{cookiecutter.package_name}}.cli.click_man', None):
+        with patch('{{ cookiecutter.package_name }}.cli.click_man', None):
             # Import error should be handled gracefully
             result = self.runner.invoke(cli, ['generate-man'])
             assert result.exit_code == 0
@@ -126,7 +126,7 @@ app:
         result = self.runner.invoke(cli, ['--config', str(config_file), 'status'])
         assert result.exit_code == 0
 
-    @patch('{{cookiecutter.package_name}}.cli.logger')
+    @patch('{{ cookiecutter.package_name }}.cli.logger')
     def test_cli_error_handling(self, mock_logger):
         """Test CLI error handling."""
         # Create a command that will raise an exception
@@ -149,22 +149,22 @@ class TestCLIIntegration:
     def test_cli_main_function(self):
         """Test the main CLI entry point."""
         # This tests the main() function that would be called from console scripts
-        with patch('{{cookiecutter.package_name}}.cli.cli') as mock_cli:
-            from {{cookiecutter.package_name}}.cli import main
+        with patch('{{ cookiecutter.package_name }}.cli.cli') as mock_cli:
+            from {{ cookiecutter.package_name }}.cli import main
             main()
             mock_cli.assert_called_once()
 
     def test_cli_main_with_exception(self):
         """Test main function exception handling."""
-        with patch('{{cookiecutter.package_name}}.cli.cli') as mock_cli:
-            with patch('{{cookiecutter.package_name}}.cli.logger') as mock_logger:
-                with patch('{{cookiecutter.package_name}}.cli.console') as mock_console:
+        with patch('{{ cookiecutter.package_name }}.cli.cli') as mock_cli:
+            with patch('{{ cookiecutter.package_name }}.cli.logger') as mock_logger:
+                with patch('{{ cookiecutter.package_name }}.cli.console') as mock_console:
                     # Make cli raise an exception
                     mock_cli.side_effect = RuntimeError("CLI error")
 
                     # Should handle exception and not crash
                     with pytest.raises(RuntimeError):
-                        from {{cookiecutter.package_name}}.cli import main
+                        from {{ cookiecutter.package_name }}.cli import main
                         main()
 
                     # Should log the error
@@ -173,25 +173,25 @@ class TestCLIIntegration:
 
     def test_generate_man_page_function(self):
         """Test the generate_man_page entry point function."""
-        with patch('{{cookiecutter.package_name}}.cli.write_man_pages') as mock_write:
+        with patch('{{ cookiecutter.package_name }}.cli.write_man_pages') as mock_write:
             with patch('sys.argv', ['prog', '/tmp']):
-                from {{cookiecutter.package_name}}.cli import generate_man_page
+                from {{ cookiecutter.package_name }}.cli import generate_man_page
                 generate_man_page()
                 mock_write.assert_called_once()
 
     def test_generate_man_page_missing_click_man(self):
         """Test generate_man_page when click-man is not available."""
-        with patch('{{cookiecutter.package_name}}.cli.write_man_pages', side_effect=ImportError):
+        with patch('{{ cookiecutter.package_name }}.cli.write_man_pages', side_effect=ImportError):
             with pytest.raises(SystemExit) as exc_info:
-                from {{cookiecutter.package_name}}.cli import generate_man_page
+                from {{ cookiecutter.package_name }}.cli import generate_man_page
                 generate_man_page()
             assert exc_info.value.code == 1
 
     def test_generate_man_page_with_exception(self):
         """Test generate_man_page with general exception."""
-        with patch('{{cookiecutter.package_name}}.cli.write_man_pages', side_effect=Exception("Test error")):
+        with patch('{{ cookiecutter.package_name }}.cli.write_man_pages', side_effect=Exception("Test error")):
             with pytest.raises(SystemExit) as exc_info:
-                from {{cookiecutter.package_name}}.cli import generate_man_page
+                from {{ cookiecutter.package_name }}.cli import generate_man_page
                 generate_man_page()
             assert exc_info.value.code == 1
 
@@ -219,7 +219,7 @@ class TestCLIHelpers:
     def test_cli_imports(self):
         """Test that all CLI components can be imported."""
         # This test ensures all imports work correctly
-        from {{cookiecutter.package_name}}.cli import (
+        from {{ cookiecutter.package_name }}.cli import (
             cli, status, completion, hello, info, generate_man, main
         )
 
@@ -233,7 +233,7 @@ class TestCLIHelpers:
 
     def test_cli_console_object(self):
         """Test that console object is properly initialized."""
-        from {{cookiecutter.package_name}}.cli import console
+        from {{ cookiecutter.package_name }}.cli import console
 
         assert console is not None
         # Should be a Rich Console instance
@@ -242,7 +242,7 @@ class TestCLIHelpers:
 
     def test_cli_logger_object(self):
         """Test that logger object is properly initialized."""
-        from {{cookiecutter.package_name}}.cli import logger
+        from {{ cookiecutter.package_name }}.cli import logger
 
         assert logger is not None
         # Should be a logging.Logger instance
@@ -292,5 +292,5 @@ import pytest
 def test_cli_not_available():
     """Test that CLI module is not available for library projects."""
     with pytest.raises(ImportError):
-        from {{cookiecutter.package_name}}.cli import cli
+        from {{ cookiecutter.package_name }}.cli import cli
 {% endif -%}

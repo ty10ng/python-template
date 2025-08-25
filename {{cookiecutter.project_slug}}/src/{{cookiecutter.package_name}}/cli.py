@@ -82,15 +82,15 @@ def completion():
     console.print("To enable shell completion, run one of these commands:")
     console.print("")
     console.print("  [cyan]Bash:[/cyan]")
-    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    eval \"$({{ cookiecutter.project_slug }} --help)\"")
     console.print("    # Add this to ~/.bashrc for permanent completion")
     console.print("")
     console.print("  [cyan]Zsh:[/cyan]")
-    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    eval \"$({{ cookiecutter.project_slug }} --help)\"")
     console.print("    # Add this to ~/.zshrc for permanent completion")
     console.print("")
     console.print("  [cyan]Fish:[/cyan]")
-    console.print("    {{cookiecutter.project_slug}} --help | source")
+    console.print("    {{ cookiecutter.project_slug }} --help | source")
     console.print("    # Add this to ~/.config/fish/config.fish for permanent completion")
     console.print("")
     console.print("Note: Restart your shell after enabling completion.")
@@ -205,10 +205,10 @@ def generate_man_page():
         # Generate the man page
         write_man_pages(cli, output_dir)
 
-        man_file = os.path.join(output_dir, "{{cookiecutter.project_slug}}.1")
+        man_file = os.path.join(output_dir, "{{ cookiecutter.project_slug }}.1")
         print(f"✅ Man page generated: {man_file}")
         print(f"Install with: sudo cp {man_file} /usr/local/man/man1/")
-        print(f"View with: man {{cookiecutter.project_slug}}")
+        print(f"View with: man {{ cookiecutter.project_slug }}")
 
     except ImportError:
         print("Error: click-man not installed. Install with: pip install click-man")

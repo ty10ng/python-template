@@ -1,5 +1,5 @@
 """
-Test configuration for {{cookiecutter.package_name}}.
+Test configuration for {{ cookiecutter.package_name }}.
 """
 
 import pytest

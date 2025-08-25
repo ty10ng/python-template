@@ -34,9 +34,9 @@ repos:
       - id: mypy
         additional_dependencies:
           - types-PyYAML
-{%- if cookiecutter.project_type == "cli-application" %}
+          {%- if cookiecutter.project_type == "cli-application" %}
           - types-click
-{%- endif %}
+          {%- endif %}
         args: [--ignore-missing-imports]
 
   - repo: https://github.com/pre-commit/pygrep-hooks

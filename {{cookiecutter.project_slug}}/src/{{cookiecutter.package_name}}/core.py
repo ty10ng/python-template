@@ -1,5 +1,5 @@
 """
-Core application module for {{cookiecutter.package_name}}.
+Core application module for {{ cookiecutter.package_name }}.
 
 This module contains the main application logic and entry points.
 """
@@ -15,10 +15,10 @@ logger = get_logger(__name__)
 
 
 class App:
-    """Main application class for {{cookiecutter.package_name}}."""
+    """Main application class for {{ cookiecutter.package_name }}."""
 
     def __init__(self):
-        """Initialize the {{cookiecutter.package_name}} application."""
+        """Initialize the {{ cookiecutter.package_name }} application."""
         self.logger = get_logger(f"{__name__}.{self.__class__.__name__}")
         self.logger.info("Initializing App")
 
@@ -35,7 +35,7 @@ class App:
         """Check and log environment variable status based on .env.example."""
         # Get the project root directory (where .env.example is located)
         current_file = Path(__file__)
-        project_root = current_file.parent.parent.parent  # Go up from src/{{cookiecutter.package_name}}/core.py to project root
+        project_root = current_file.parent.parent.parent  # Go up from src/{{ cookiecutter.package_name }}/core.py to project root
         env_example_path = project_root / ".env.example"
 
         if not env_example_path.exists():
@@ -181,7 +181,7 @@ class App:
 
 def main():
     """Main entry point for the application."""
-    logger.info("Starting {{cookiecutter.package_name}} application")
+    logger.info("Starting {{ cookiecutter.package_name }} application")
 
     try:
         app = App()

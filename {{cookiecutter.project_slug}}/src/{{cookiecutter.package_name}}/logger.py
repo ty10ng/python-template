@@ -1,5 +1,5 @@
 """
-Enhanced modular logger configuration for {{cookiecutter.package_name}}.
+Enhanced modular logger configuration for {{ cookiecutter.package_name }}.
 
 This module provides a centralized, secure, and performant logging system
 with thread safety, sensitive data filtering, and configuration integration.
@@ -191,16 +191,16 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_obj, default=str)
 
 
-class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
+class {{ cookiecutter.package_name.replace('_', '').title() }}Logger:
     """Enhanced thread-safe logger with security and performance improvements."""
 
-    _instance: Optional['{{cookiecutter.package_name.replace('_', '').title()}}Logger'] = None
+    _instance: Optional['{{ cookiecutter.package_name.replace('_', '').title() }}Logger'] = None
     _logger: Optional[logging.Logger] = None
     _audit_logger: Optional[logging.Logger] = None
     _lock = threading.RLock()  # Reentrant lock for nested calls
     _initialized = False
 
-    def __new__(cls) -> '{{cookiecutter.package_name.replace('_', '').title()}}Logger':
+    def __new__(cls) -> '{{ cookiecutter.package_name.replace('_', '').title() }}Logger':
         """Thread-safe singleton implementation."""
         if cls._instance is None:
             with cls._lock:
@@ -232,13 +232,13 @@ class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
         class FallbackConfig:
             def get(self, key: str, default=None):
                 fallback_values = {
-                    'logging.console_level': os.getenv('{{cookiecutter.package_name|upper}}_CONSOLE_LOG_LEVEL', 'INFO'),
-                    'logging.file_level': os.getenv('{{cookiecutter.package_name|upper}}_FILE_LOG_LEVEL', 'DEBUG'),
-                    'logging.file_path': os.getenv('{{cookiecutter.package_name|upper}}_LOG_FILE_PATH', 'logs/{{cookiecutter.package_name}}.log'),
-                    'logging.max_file_size': os.getenv('{{cookiecutter.package_name|upper}}_LOG_MAX_FILE_SIZE', '10MB'),
-                    'logging.backup_count': int(os.getenv('{{cookiecutter.package_name|upper}}_LOG_BACKUP_COUNT', '5')),
-                    'logging.format': os.getenv('{{cookiecutter.package_name|upper}}_LOG_FORMAT', 'standard'),
-                    'logging.enable_json': os.getenv('{{cookiecutter.package_name|upper}}_LOG_JSON', 'false').lower() == 'true',
+                    'logging.console_level': os.getenv('{{ cookiecutter.package_name|upper }}_CONSOLE_LOG_LEVEL', 'INFO'),
+                    'logging.file_level': os.getenv('{{ cookiecutter.package_name|upper }}_FILE_LOG_LEVEL', 'DEBUG'),
+                    'logging.file_path': os.getenv('{{ cookiecutter.package_name|upper }}_LOG_FILE_PATH', 'logs/{{ cookiecutter.package_name }}.log'),
+                    'logging.max_file_size': os.getenv('{{ cookiecutter.package_name|upper }}_LOG_MAX_FILE_SIZE', '10MB'),
+                    'logging.backup_count': int(os.getenv('{{ cookiecutter.package_name|upper }}_LOG_BACKUP_COUNT', '5')),
+                    'logging.format': os.getenv('{{ cookiecutter.package_name|upper }}_LOG_FORMAT', 'standard'),
+                    'logging.enable_json': os.getenv('{{ cookiecutter.package_name|upper }}_LOG_JSON', 'false').lower() == 'true',
                 }
                 return fallback_values.get(key, default)
 
@@ -249,7 +249,7 @@ class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
         config = self._get_config()
 
         # Create main logger
-        self._logger = logging.getLogger('{{cookiecutter.package_name}}')
+        self._logger = logging.getLogger('{{ cookiecutter.package_name }}')
         self._logger.setLevel(logging.DEBUG)
 
         # Clear any existing handlers to prevent duplicates
@@ -272,8 +272,8 @@ class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
         console_handler.setFormatter(console_formatter)
 
         # File handler with rotation
-        log_file_path = config.get('logging.file_path', 'logs/{{cookiecutter.package_name}}.log')
-        log_file = Path(str(log_file_path or 'logs/{{cookiecutter.package_name}}.log'))
+        log_file_path = config.get('logging.file_path', 'logs/{{ cookiecutter.package_name }}.log')
+        log_file = Path(str(log_file_path or 'logs/{{ cookiecutter.package_name }}.log'))
         log_file.parent.mkdir(parents=True, exist_ok=True)
 
         max_size_str = config.get('logging.max_file_size', '10MB')
@@ -326,7 +326,7 @@ class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
 
     def _setup_audit_logger(self):
         """Set up separate audit logger for security events."""
-        self._audit_logger = logging.getLogger('{{cookiecutter.package_name}}.audit')
+        self._audit_logger = logging.getLogger('{{ cookiecutter.package_name }}.audit')
         self._audit_logger.setLevel(logging.INFO)
 
         # Clear existing handlers
@@ -430,7 +430,7 @@ class {{cookiecutter.package_name.replace('_', '').title()}}Logger:
 
 
 # Global logger instance
-_{{cookiecutter.package_name}}_logger = {{cookiecutter.package_name.replace('_', '').title()}}Logger()
+_{{ cookiecutter.package_name }}_logger = {{ cookiecutter.package_name.replace('_', '').title() }}Logger()
 
 
 def get_logger(name: Optional[str] = None) -> logging.Logger:
@@ -449,17 +449,17 @@ def get_logger(name: Optional[str] = None) -> logging.Logger:
         >>> logger.info("This is an info message")
         >>> logger.error("This is an error message")
     """
-    return _{{cookiecutter.package_name}}_logger.get_logger(name)
+    return _{{ cookiecutter.package_name }}_logger.get_logger(name)
 
 
 def get_audit_logger() -> logging.Logger:
     """Get the audit logger for security events."""
-    return _{{cookiecutter.package_name}}_logger.get_audit_logger()
+    return _{{ cookiecutter.package_name }}_logger.get_audit_logger()
 
 
 def log_security_event(event_type: str, details: Dict[str, Any], level: str = 'INFO'):
     """Log a security event."""
-    _{{cookiecutter.package_name}}_logger.log_security_event(event_type, details, level)
+    _{{ cookiecutter.package_name }}_logger.log_security_event(event_type, details, level)
 
 
 def set_log_level(console_level: Optional[str] = None, file_level: Optional[str] = None):
@@ -477,37 +477,37 @@ def set_log_level(console_level: Optional[str] = None, file_level: Optional[str]
         level = console_level.upper()
         if not hasattr(logging, level):
             raise ValueError(f'Invalid log level: {console_level}')
-        _{{cookiecutter.package_name}}_logger.update_log_levels(console_level=level)
+        _{{ cookiecutter.package_name }}_logger.update_log_levels(console_level=level)
     else:
-        _{{cookiecutter.package_name}}_logger.update_log_levels(console_level, file_level)
+        _{{ cookiecutter.package_name }}_logger.update_log_levels(console_level, file_level)
 
 
 # Enhanced convenience functions with lazy evaluation
 def debug(message: str, *args, **kwargs):
     """Log a debug message with lazy evaluation."""
-    logger = _{{cookiecutter.package_name}}_logger.get_logger()
+    logger = _{{ cookiecutter.package_name }}_logger.get_logger()
     if logger.isEnabledFor(logging.DEBUG):
         logger.debug(message, *args, **kwargs)
 
 
 def info(message: str, *args, **kwargs):
     """Log an info message."""
-    _{{cookiecutter.package_name}}_logger.get_logger().info(message, *args, **kwargs)
+    _{{ cookiecutter.package_name }}_logger.get_logger().info(message, *args, **kwargs)
 
 
 def warning(message: str, *args, **kwargs):
     """Log a warning message."""
-    _{{cookiecutter.package_name}}_logger.get_logger().warning(message, *args, **kwargs)
+    _{{ cookiecutter.package_name }}_logger.get_logger().warning(message, *args, **kwargs)
 
 
 def error(message: str, *args, **kwargs):
     """Log an error message."""
-    _{{cookiecutter.package_name}}_logger.get_logger().error(message, *args, **kwargs)
+    _{{ cookiecutter.package_name }}_logger.get_logger().error(message, *args, **kwargs)
 
 
 def critical(message: str, *args, **kwargs):
     """Log a critical message."""
-    _{{cookiecutter.package_name}}_logger.get_logger().critical(message, *args, **kwargs)
+    _{{ cookiecutter.package_name }}_logger.get_logger().critical(message, *args, **kwargs)
 
 
 if __name__ == "__main__":

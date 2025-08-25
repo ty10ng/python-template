@@ -1,5 +1,5 @@
 """
-Configuration management module for {{cookiecutter.package_name}}.
+Configuration management module for {{ cookiecutter.package_name }}.
 
 This module handles hierarchical configuration loading:
 DEFAULTS < CONFIG_FILE < Environment Variables
@@ -18,7 +18,7 @@ logger = get_logger(__name__)
 
 
 class Config:
-    """Hierarchical configuration manager for {{cookiecutter.package_name}}."""
+    """Hierarchical configuration manager for {{ cookiecutter.package_name }}."""
 
     # Default configuration values
     DEFAULT_CONFIG = {
@@ -26,7 +26,7 @@ class Config:
             'level': 'INFO',
             'console_level': 'INFO',
             'file_level': 'DEBUG',
-            'file_path': 'logs/{{cookiecutter.package_name}}.log',
+            'file_path': 'logs/{{ cookiecutter.package_name }}.log',
             'max_file_size': '10MB',
             'backup_count': 5
         },
@@ -42,13 +42,13 @@ class Config:
             'pool_timeout': 30
         },
         'app': {
-            'name': '{{cookiecutter.package_name}}',
+            'name': '{{ cookiecutter.package_name }}',
             'version': '1.0.0',
             'debug': False
         }
     }
 
-    def __init__(self, config_file: Optional[str] = None, config_file_env_var: str = '{{cookiecutter.package_name|upper}}_CONFIG_FILE'):
+    def __init__(self, config_file: Optional[str] = None, config_file_env_var: str = '{{ cookiecutter.package_name|upper }}_CONFIG_FILE'):
         """
         Initialize the configuration manager.
 
@@ -135,12 +135,12 @@ class Config:
         # Define environment variable mappings to config paths
         env_mappings = {
             # Logging configuration
-            '{{cookiecutter.package_name|upper}}_LOG_LEVEL': 'logging.level',
-            '{{cookiecutter.package_name|upper}}_CONSOLE_LOG_LEVEL': 'logging.console_level',
-            '{{cookiecutter.package_name|upper}}_FILE_LOG_LEVEL': 'logging.file_level',
-            '{{cookiecutter.package_name|upper}}_LOG_FILE_PATH': 'logging.file_path',
-            '{{cookiecutter.package_name|upper}}_LOG_MAX_FILE_SIZE': 'logging.max_file_size',
-            '{{cookiecutter.package_name|upper}}_LOG_BACKUP_COUNT': 'logging.backup_count',
+            '{{ cookiecutter.package_name|upper }}_LOG_LEVEL': 'logging.level',
+            '{{ cookiecutter.package_name|upper }}_CONSOLE_LOG_LEVEL': 'logging.console_level',
+            '{{ cookiecutter.package_name|upper }}_FILE_LOG_LEVEL': 'logging.file_level',
+            '{{ cookiecutter.package_name|upper }}_LOG_FILE_PATH': 'logging.file_path',
+            '{{ cookiecutter.package_name|upper }}_LOG_MAX_FILE_SIZE': 'logging.max_file_size',
+            '{{ cookiecutter.package_name|upper }}_LOG_BACKUP_COUNT': 'logging.backup_count',
 
             # API configuration
             'API_TIMEOUT': 'api.timeout',
@@ -154,9 +154,9 @@ class Config:
             'DB_POOL_TIMEOUT': 'database.pool_timeout',
 
             # App configuration
-            '{{cookiecutter.package_name|upper}}_APP_NAME': 'app.name',
-            '{{cookiecutter.package_name|upper}}_APP_VERSION': 'app.version',
-            '{{cookiecutter.package_name|upper}}_DEBUG': 'app.debug'
+            '{{ cookiecutter.package_name|upper }}_APP_NAME': 'app.name',
+            '{{ cookiecutter.package_name|upper }}_APP_VERSION': 'app.version',
+            '{{ cookiecutter.package_name|upper }}_DEBUG': 'app.debug'
         }
 
         override_count = 0

@@ -20,15 +20,15 @@ requires-python = ">={{cookiecutter.python_version}}"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-{%- if cookiecutter.license == 'MIT' %}
+    {%- if cookiecutter.license == 'MIT' %}
     "License :: OSI Approved :: MIT License",
-{%- elif cookiecutter.license == 'Apache-2.0' %}
+    {%- elif cookiecutter.license == 'Apache-2.0' %}
     "License :: OSI Approved :: Apache Software License",
-{%- elif cookiecutter.license == 'BSD-3-Clause' %}
+    {%- elif cookiecutter.license == 'BSD-3-Clause' %}
     "License :: OSI Approved :: BSD License",
-{%- elif cookiecutter.license == 'GPL-3.0' %}
+    {%- elif cookiecutter.license == 'GPL-3.0' %}
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-{%- endif %}
+    {%- endif %}
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
@@ -39,11 +39,11 @@ dependencies = [
     "pyyaml>=6.0",
     "python-dotenv>=1.0.0",
     "colorama>=0.4.6",
-{%- if cookiecutter.project_type == "cli-application" %}
+    {%- if cookiecutter.project_type == "cli-application" %}
     "click>=8.1.0",
     "rich>=13.0.0",
     "click-man>=0.4.1",
-{%- endif %}
+    {%- endif %}
 ]
 
 [project.optional-dependencies]
@@ -55,9 +55,9 @@ dev = [
     "types-pyyaml>=6.0.0",
     "build>=1.0.0",
     "mkdocs-material>=9.5.0",
-{%- if cookiecutter.include_pre_commit == 'y' %}
+    {%- if cookiecutter.include_pre_commit == 'y' %}
     "pre-commit>=3.7.0",
-{%- endif %}
+    {%- endif %}
 ]
 
 {%- if cookiecutter.project_type == "cli-application" %}

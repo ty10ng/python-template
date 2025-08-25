@@ -5,7 +5,7 @@ Tests for the services module.
 import pytest
 from unittest.mock import patch, MagicMock
 
-from {{cookiecutter.package_name}}.services import ExampleService, example_function
+from {{ cookiecutter.package_name }}.services import ExampleService, example_function
 
 
 class TestExampleService:
@@ -71,7 +71,7 @@ class TestExampleService:
         assert result == len(str(test_data))
         assert result == 5
 
-    @patch('{{cookiecutter.package_name}}.services.get_logger')
+    @patch('{{ cookiecutter.package_name }}.services.get_logger')
     def test_service_logging(self, mock_get_logger):
         """Test that service logs appropriately."""
         mock_logger = MagicMock()
@@ -90,7 +90,7 @@ class TestExampleService:
         mock_logger.debug.assert_called()
         mock_logger.info.assert_called()
 
-    @patch('{{cookiecutter.package_name}}.services.get_logger')
+    @patch('{{ cookiecutter.package_name }}.services.get_logger')
     def test_service_warning_logging(self, mock_get_logger):
         """Test that service logs warnings for empty data."""
         mock_logger = MagicMock()
@@ -118,7 +118,7 @@ class TestExampleService:
         with pytest.raises(ValueError, match="Test exception"):
             service.process_data(bad_data)
 
-    @patch('{{cookiecutter.package_name}}.services.get_logger')
+    @patch('{{ cookiecutter.package_name }}.services.get_logger')
     def test_service_error_logging(self, mock_get_logger):
         """Test that service logs errors when exceptions occur."""
         mock_logger = MagicMock()
@@ -146,8 +146,8 @@ class TestExampleService:
 class TestExampleFunction:
     """Test cases for the example_function."""
 
-    @patch('{{cookiecutter.package_name}}.services.ExampleService')
-    @patch('{{cookiecutter.package_name}}.services.logger')
+    @patch('{{ cookiecutter.package_name }}.services.ExampleService')
+    @patch('{{ cookiecutter.package_name }}.services.logger')
     def test_example_function_execution(self, mock_logger, mock_service_class):
         """Test that example_function executes correctly."""
         mock_service = MagicMock()
@@ -171,8 +171,8 @@ class TestExampleFunction:
         assert any("Starting example function" in call for call in info_calls)
         assert any("Example function completed" in call for call in info_calls)
 
-    @patch('{{cookiecutter.package_name}}.services.ExampleService')
-    @patch('{{cookiecutter.package_name}}.services.logger')
+    @patch('{{ cookiecutter.package_name }}.services.ExampleService')
+    @patch('{{ cookiecutter.package_name }}.services.logger')
     def test_example_function_with_service_exception(self, mock_logger, mock_service_class):
         """Test example_function when service raises exception."""
         mock_service = MagicMock()
@@ -191,7 +191,7 @@ class TestExampleFunction:
         # This should execute without exceptions
         example_function()
 
-    @patch('{{cookiecutter.package_name}}.services.logger')
+    @patch('{{ cookiecutter.package_name }}.services.logger')
     def test_example_function_logging_details(self, mock_logger):
         """Test detailed logging behavior of example_function."""
         example_function()
@@ -210,7 +210,7 @@ class TestServiceModuleIntegration:
 
     def test_service_module_imports(self):
         """Test that all expected components can be imported."""
-        from {{cookiecutter.package_name}}.services import ExampleService, example_function
+        from {{ cookiecutter.package_name }}.services import ExampleService, example_function
 
         assert ExampleService is not None
         assert example_function is not None
@@ -269,17 +269,17 @@ class TestServiceModuleRuntime:
     def test_module_main_execution(self):
         """Test that module can be executed as main."""
         # Import and test the module's main execution path
-        import {{cookiecutter.package_name}}.services as services_module
+        import {{ cookiecutter.package_name }}.services as services_module
 
         # Should not raise any exceptions when imported
         assert services_module is not None
 
-    @patch('{{cookiecutter.package_name}}.services.example_function')
+    @patch('{{ cookiecutter.package_name }}.services.example_function')
     def test_module_main_call(self, mock_example_function):
         """Test that main execution calls example_function."""
         # This tests the if __name__ == "__main__" block
         import importlib
-        import {{cookiecutter.package_name}}.services as services_module
+        import {{ cookiecutter.package_name }}.services as services_module
 
         # Simulate running as main
         with patch.object(services_module, '__name__', '__main__'):

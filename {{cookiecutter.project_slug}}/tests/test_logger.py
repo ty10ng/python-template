@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-from {{cookiecutter.package_name}}.logger import (
+from {{ cookiecutter.package_name }}.logger import (
     get_logger,
     get_audit_logger,
     log_security_event,
@@ -18,7 +18,7 @@ from {{cookiecutter.package_name}}.logger import (
     SensitiveDataFilter,
     ColoredFormatter,
     JSONFormatter,
-    {{cookiecutter.package_name.replace('_', '').title()}}Logger
+    {{ cookiecutter.package_name.replace('_', '').title() }}Logger
 )
 
 
@@ -318,7 +318,7 @@ class TestMainLogger:
         with pytest.raises(ValueError):
             set_log_level("INVALID_LEVEL")
 
-    @patch('{{cookiecutter.package_name}}.logger._{{cookiecutter.package_name}}_logger')
+    @patch('{{ cookiecutter.package_name }}.logger._{{ cookiecutter.package_name }}_logger')
     def test_logger_singleton(self, mock_logger_instance):
         """Test that logger uses singleton pattern."""
         mock_logger_instance.get_logger = MagicMock()
@@ -343,7 +343,7 @@ class TestLoggerConfiguration:
 
     def test_parse_file_size(self):
         """Test file size parsing functionality."""
-        logger_instance = {{cookiecutter.package_name.replace('_', '').title()}}Logger()
+        logger_instance = {{ cookiecutter.package_name.replace('_', '').title() }}Logger()
 
         # Test various size formats
         assert logger_instance._parse_file_size("1024") == 1024
@@ -359,7 +359,7 @@ class TestLoggerConfiguration:
 
     def test_logger_with_temp_directory(self, temp_dir):
         """Test logger creation with temporary directory for logs."""
-        with patch.dict('os.environ', {'{{cookiecutter.package_name|upper}}_LOG_FILE_PATH': str(temp_dir / 'test.log')}):
+        with patch.dict("os.environ", {"{{ cookiecutter.package_name | upper }}_LOG_FILE_PATH": str(temp_dir / "test.log")}):
             logger = get_logger("test.with.temp")
             assert logger is not None
 
@@ -376,10 +376,10 @@ class TestLoggerIntegration:
         """Test a complete logging workflow with file output."""
         log_file = temp_dir / "integration_test.log"
 
-        with patch.dict('os.environ', {
-            '{{cookiecutter.package_name|upper}}_LOG_FILE_PATH': str(log_file),
-            '{{cookiecutter.package_name|upper}}_CONSOLE_LOG_LEVEL': 'WARNING',
-            '{{cookiecutter.package_name|upper}}_FILE_LOG_LEVEL': 'DEBUG'
+        with patch.dict("os.environ", {
+            "{{ cookiecutter.package_name | upper }}_LOG_FILE_PATH": str(log_file),
+            "{{ cookiecutter.package_name | upper }}_CONSOLE_LOG_LEVEL": "WARNING",
+            "{{ cookiecutter.package_name | upper }}_FILE_LOG_LEVEL": "DEBUG"
         }):
             # Get logger and log various levels
             logger = get_logger("integration.test")

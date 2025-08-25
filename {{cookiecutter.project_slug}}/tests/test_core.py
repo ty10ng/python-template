@@ -7,7 +7,7 @@ import os
 from unittest.mock import patch, MagicMock
 from pathlib import Path
 
-from {{cookiecutter.package_name}}.core import App
+from {{ cookiecutter.package_name }}.core import App
 
 
 class TestApp:
@@ -20,7 +20,7 @@ class TestApp:
         assert hasattr(app, 'config')
         assert hasattr(app, 'logger')
 
-    @patch('{{cookiecutter.package_name}}.core.load_dotenv')
+    @patch('{{ cookiecutter.package_name }}.core.load_dotenv')
     def test_app_loads_dotenv(self, mock_load_dotenv):
         """Test that the App loads environment variables."""
         App()
@@ -33,7 +33,7 @@ class TestApp:
         assert isinstance(result, int)
         assert result > 0
 
-    @patch('{{cookiecutter.package_name}}.core.App._process_data')
+    @patch('{{ cookiecutter.package_name }}.core.App._process_data')
     def test_run_success(self, mock_process_data):
         """Test successful run of the application."""
         mock_process_data.return_value = 42
@@ -42,7 +42,7 @@ class TestApp:
         app.run()  # Should not raise any exceptions
         mock_process_data.assert_called_once()
 
-    @patch('{{cookiecutter.package_name}}.core.App._process_data')
+    @patch('{{ cookiecutter.package_name }}.core.App._process_data')
     def test_run_failure(self, mock_process_data):
         """Test that run properly handles exceptions."""
         mock_process_data.side_effect = RuntimeError("Test error")
@@ -97,7 +97,7 @@ MAX_CONNECTIONS=10
         assert result["FEATURE_ENABLED"]["optional"] is True
         assert result["DATABASE_URL"]["optional"] is False
 
-    @patch('{{cookiecutter.package_name}}.core.os.getenv')
+    @patch('{{ cookiecutter.package_name }}.core.os.getenv')
     def test_check_environment_with_vars(self, mock_getenv, temp_dir):
         """Test environment checking with some variables present."""
         # Create a simple .env.example
