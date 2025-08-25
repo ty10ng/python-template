@@ -1,12 +1,13 @@
 """
-Test configuration for {{cookiecutter.package_name}}.
+Test configuration for {{ cookiecutter.package_name }}.
 """
 
-import pytest
-import tempfile
 import os
 import sys
+import tempfile
 from pathlib import Path
+
+import pytest
 
 # Add src directory to Python path for tests
 src_dir = Path(__file__).parent.parent / "src"
@@ -29,18 +30,18 @@ def mock_env_vars():
         'API_KEY': 'mock_api_key',
         'DEBUG': 'true'
     }
-    
+
     # Store original values
     original_values = {}
     for key in test_vars:
         original_values[key] = os.getenv(key)
-    
+
     # Set test values
     for key, value in test_vars.items():
         os.environ[key] = value
-    
+
     yield test_vars
-    
+
     # Restore original values
     for key, original_value in original_values.items():
         if original_value is None:

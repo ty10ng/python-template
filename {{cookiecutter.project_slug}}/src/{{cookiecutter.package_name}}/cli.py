@@ -4,12 +4,11 @@ Command-line interface for {{ cookiecutter.project_name }}.
 This module provides the CLI entry point and command definitions.
 """
 
-import os
-import click
+import click  # noqa: I001
 from rich.console import Console
 from rich.table import Table
 
-from . import get_logger, get_config, __version__
+from . import __version__, get_config, get_logger
 
 
 console = Console()
@@ -25,30 +24,30 @@ logger = get_logger(__name__)
 )
 @click.option(
     "--config", "-c",
-    type=click.Path(exists=True),
+    type=click.Path(),
     help="Path to configuration file"
 )
 @click.pass_context
 def cli(ctx, verbose, config):
     """
     {{ cookiecutter.project_name }} - {{ cookiecutter.project_description }}
-    
+
     A professional CLI application with comprehensive logging and configuration.
     """
     # Ensure context object exists
     ctx.ensure_object(dict)
-    
+
     # Store options in context
     ctx.obj['verbose'] = verbose
     ctx.obj['config'] = config
-    
+
     # Configure logging based on verbosity
     if verbose:
         logger.info("Verbose mode enabled")
-    
+
     if verbose:
         logger.info("Verbose mode enabled")
-    
+
     if config:
         logger.info(f"Using config file: {config}")
 
@@ -58,18 +57,18 @@ def cli(ctx, verbose, config):
 def status(ctx):
     """Show application status and configuration."""
     config = get_config()
-    
+
     # Create a status table
     table = Table(title="{{ cookiecutter.project_name }} Status")
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="green")
-    
+
     table.add_row("Version", __version__)
     table.add_row("App Name", config.get('app.name', 'Unknown'))
     table.add_row("Environment", config.get('app.environment', 'development'))
     table.add_row("Log Level", config.get('logging.level', 'INFO'))
     table.add_row("Verbose Mode", str(ctx.obj.get('verbose', False)))
-    
+
     console.print(table)
     logger.info("Status command executed")
 
@@ -82,15 +81,15 @@ def completion():
     console.print("To enable shell completion, run one of these commands:")
     console.print("")
     console.print("  [cyan]Bash:[/cyan]")
-    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    eval \"$({{ cookiecutter.project_slug }} --help)\"")
     console.print("    # Add this to ~/.bashrc for permanent completion")
     console.print("")
     console.print("  [cyan]Zsh:[/cyan]")
-    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    eval \"$({{ cookiecutter.project_slug }} --help)\"")
     console.print("    # Add this to ~/.zshrc for permanent completion")
     console.print("")
     console.print("  [cyan]Fish:[/cyan]")
-    console.print("    {{cookiecutter.project_slug}} --help | source")
+    console.print("    {{ cookiecutter.project_slug }} --help | source")
     console.print("    # Add this to ~/.config/fish/config.fish for permanent completion")
     console.print("")
     console.print("Note: Restart your shell after enabling completion.")
@@ -112,7 +111,7 @@ def hello(ctx, name, count):
         if ctx.obj.get('verbose'):
             message += f" (greeting {i + 1}/{count})"
         console.print(message, style="bold green")
-    
+
     logger.info(f"Greeted {name} {count} time(s)")
 
 
@@ -121,22 +120,23 @@ def hello(ctx, name, count):
 def info(ctx):
     """Show detailed application information."""
     config = get_config()
-    
+
     console.print("\n[bold blue]{{ cookiecutter.project_name }}[/bold blue]")
     console.print(f"Version: {__version__}")
-    console.print(f"Description: {{ cookiecutter.project_description }}")
-    console.print(f"Author: {{ cookiecutter.author_name }}")
-    console.print(f"Python Version: {{ cookiecutter.python_version }}+")
-    
+    console.print("Description: {{ cookiecutter.project_description }}")
+    console.print("Author: {{ cookiecutter.author_name }}")
+    console.print("Python Version: {{ cookiecutter.python_version }}+")
+
     console.print("\n[bold blue]Configuration:[/bold blue]")
-    for key, value in config.data.items():
+    config_data = config.get_all()
+    for key, value in config_data.items():
         if isinstance(value, dict):
             console.print(f"  {key}:")
             for subkey, subvalue in value.items():
                 console.print(f"    {subkey}: {subvalue}")
         else:
             console.print(f"  {key}: {value}")
-    
+
     logger.info("Info command executed")
 
 
@@ -151,22 +151,25 @@ def info(ctx):
 def generate_man(ctx, output):
     """Generate man page for the CLI application."""
     try:
-        import click_man
-        
+        import os  # noqa: PLC0415
+
+        from click_man.core import write_man_pages  # noqa: PLC0415
+
         console.print(f"Generating man page: {output}")
-        
-        # Generate the man page
-        man_page = click_man.generate_man_page(cli)
-        
-        with open(output, 'w') as f:
-            f.write(man_page)
-        
+
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(output) or "."
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Generate the man page using write_man_pages
+        write_man_pages(cli, output_dir)
+
         console.print(f"✅ Man page generated: {output}")
         console.print(f"Install with: sudo cp {output} /usr/local/man/man1/")
         console.print(f"View with: man {output.replace('.1', '')}")
-        
+
         logger.info(f"Man page generated: {output}")
-        
+
     except ImportError:
         console.print("[red]Error: click-man not installed. Install with: pip install click-man[/red]")
     except Exception as e:
@@ -187,34 +190,42 @@ def main():
 def generate_man_page():
     """Entry point for man page generation."""
     try:
-        from click_man.core import write_man_pages
-        import sys
-        import os
-        
+        import os  # noqa: PLC0415
+        import sys  # noqa: PLC0415
+
+        from click_man.core import write_man_pages  # noqa: PLC0415
+
         if len(sys.argv) > 1:
             output_dir = sys.argv[1]
         else:
             output_dir = "."
-        
+
         print(f"Generating man page in directory: {output_dir}")
-        
+
         # Create output directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
-        
+
         # Generate the man page
         write_man_pages(cli, output_dir)
-        
-        man_file = os.path.join(output_dir, "{{cookiecutter.project_slug}}.1")
+
+        man_file = os.path.join(output_dir, "{{ cookiecutter.project_slug }}.1")
         print(f"✅ Man page generated: {man_file}")
         print(f"Install with: sudo cp {man_file} /usr/local/man/man1/")
-        print(f"View with: man {{cookiecutter.project_slug}}")
-        
+        print("View with: man {{ cookiecutter.project_slug }}")
+
     except ImportError:
         print("Error: click-man not installed. Install with: pip install click-man")
         sys.exit(1)
     except Exception as e:
         print(f"Error generating man page: {e}")
         sys.exit(1)
+
+
+# Import click_man at module level for testing compatibility
+try:
+    import click_man
+except ImportError:
+    click_man = None
 
 
 if __name__ == "__main__":
