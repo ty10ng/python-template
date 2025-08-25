@@ -1,34 +1,26 @@
 [tool.poetry]
-name = "{{cookiecutter.project_slug}}"
+name = "test_project"
 version = "0.1.0"
-description = "{{cookiecutter.project_description}}"
-authors = ["{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>" ]
-license = "{{cookiecutter.license}}"
+description = "A brief description of your project"
+authors = ["Test Author <test@example.com>" ]
+license = "MIT"
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{cookiecutter.project_slug}}"
+name = "test_project"
 version = "0.1.0"
-description = "{{cookiecutter.project_description}}"
+description = "A brief description of your project"
 authors = [
-    {name = "{{cookiecutter.author_name}}", email = "{{cookiecutter.author_email}}"},
+    {name = "Test Author", email = "test@example.com"},
 ]
 readme = "README.md"
-requires-python = ">={{cookiecutter.python_version}}"
+requires-python = ">=3.11"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-{%- if cookiecutter.license == 'MIT' %}
     "License :: OSI Approved :: MIT License",
-{%- elif cookiecutter.license == 'Apache-2.0' %}
-    "License :: OSI Approved :: Apache Software License",
-{%- elif cookiecutter.license == 'BSD-3-Clause' %}
-    "License :: OSI Approved :: BSD License",
-{%- elif cookiecutter.license == 'GPL-3.0' %}
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-{%- endif %}
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
@@ -39,11 +31,9 @@ dependencies = [
     "pyyaml>=6.0",
     "python-dotenv>=1.0.0",
     "colorama>=0.4.6",
-{%- if cookiecutter.project_type == "cli-application" %}
     "click>=8.1.0",
     "rich>=13.0.0",
     "click-man>=0.4.1",
-{%- endif %}
 ]
 
 [project.optional-dependencies]
@@ -55,22 +45,17 @@ dev = [
     "types-pyyaml>=6.0.0",
     "build>=1.0.0",
     "mkdocs-material>=9.5.0",
-{%- if cookiecutter.include_pre_commit == 'y' %}
     "pre-commit>=3.7.0",
-{%- endif %}
 ]
-
-{%- if cookiecutter.project_type == "cli-application" %}
 [project.scripts]
-{{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.cli:main"
-{{ cookiecutter.package_name }}-man = "{{ cookiecutter.package_name }}.cli:generate_man_page"
-{%- endif %}
+test_project = "test_project.cli:main"
+test_project-man = "test_project.cli:generate_man_page"
 
 [project.urls]
-Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
-Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
-Documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
-Issues = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+Homepage = "https://github.com/ty10ng/test_project"
+Repository = "https://github.com/ty10ng/test_project"
+Documentation = "https://ty10ng.github.io/test_project"
+Issues = "https://github.com/ty10ng/test_project/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -85,14 +70,14 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--verbose",
-    "--cov={{cookiecutter.package_name}}",
+    "--cov=test_project",
     "--cov-report=term-missing",
     "--cov-report=xml",
     "--cov-fail-under=80",
 ]
 
 [tool.coverage.run]
-source = ["{{cookiecutter.package_name}}"]
+source = ["test_project"]
 omit = ["*/tests/*", "*/test_*.py"]
 
 [tool.coverage.report]
@@ -110,7 +95,7 @@ exclude_lines = [
 ]
 
 [tool.ruff]
-target-version = "py{{cookiecutter.python_version.replace('.', '')}}"
+target-version = "py311"
 line-length = 100
 src = ["src", "tests"]
 
@@ -136,7 +121,7 @@ ignore = [
 "tests/*" = ["PLR2004", "S101", "TID252"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["{{cookiecutter.package_name}}"]
+known-first-party = ["test_project"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -145,7 +130,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.mypy]
-python_version = "{{cookiecutter.python_version}}"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 warn_redundant_casts = true

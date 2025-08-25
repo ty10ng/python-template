@@ -1,5 +1,5 @@
 """
-Command-line interface for {{ cookiecutter.project_name }}.
+Command-line interface for Test Project.
 
 This module provides the CLI entry point and command definitions.
 """
@@ -31,7 +31,7 @@ logger = get_logger(__name__)
 @click.pass_context
 def cli(ctx, verbose, config):
     """
-    {{ cookiecutter.project_name }} - {{ cookiecutter.project_description }}
+    Test Project - A brief description of your project
 
     A professional CLI application with comprehensive logging and configuration.
     """
@@ -60,7 +60,7 @@ def status(ctx):
     config = get_config()
 
     # Create a status table
-    table = Table(title="{{ cookiecutter.project_name }} Status")
+    table = Table(title="Test Project Status")
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="green")
 
@@ -82,15 +82,15 @@ def completion():
     console.print("To enable shell completion, run one of these commands:")
     console.print("")
     console.print("  [cyan]Bash:[/cyan]")
-    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    eval \"$(test_project --help)\"")
     console.print("    # Add this to ~/.bashrc for permanent completion")
     console.print("")
     console.print("  [cyan]Zsh:[/cyan]")
-    console.print("    eval \"$({{cookiecutter.project_slug}} --help)\"")
+    console.print("    eval \"$(test_project --help)\"")
     console.print("    # Add this to ~/.zshrc for permanent completion")
     console.print("")
     console.print("  [cyan]Fish:[/cyan]")
-    console.print("    {{cookiecutter.project_slug}} --help | source")
+    console.print("    test_project --help | source")
     console.print("    # Add this to ~/.config/fish/config.fish for permanent completion")
     console.print("")
     console.print("Note: Restart your shell after enabling completion.")
@@ -122,11 +122,11 @@ def info(ctx):
     """Show detailed application information."""
     config = get_config()
 
-    console.print("\n[bold blue]{{ cookiecutter.project_name }}[/bold blue]")
+    console.print("\n[bold blue]Test Project[/bold blue]")
     console.print(f"Version: {__version__}")
-    console.print(f"Description: {{ cookiecutter.project_description }}")
-    console.print(f"Author: {{ cookiecutter.author_name }}")
-    console.print(f"Python Version: {{ cookiecutter.python_version }}+")
+    console.print(f"Description: A brief description of your project")
+    console.print(f"Author: Test Author")
+    console.print(f"Python Version: 3.11+")
 
     console.print("\n[bold blue]Configuration:[/bold blue]")
     config_data = config.get_all()
@@ -145,7 +145,7 @@ def info(ctx):
 @click.option(
     '--output', '-o',
     type=click.Path(),
-    default='{{ cookiecutter.package_name }}.1',
+    default='test_project.1',
     help='Output file for the man page'
 )
 @click.pass_context
@@ -205,10 +205,10 @@ def generate_man_page():
         # Generate the man page
         write_man_pages(cli, output_dir)
 
-        man_file = os.path.join(output_dir, "{{cookiecutter.project_slug}}.1")
+        man_file = os.path.join(output_dir, "test_project.1")
         print(f"✅ Man page generated: {man_file}")
         print(f"Install with: sudo cp {man_file} /usr/local/man/man1/")
-        print(f"View with: man {{cookiecutter.project_slug}}")
+        print(f"View with: man test_project")
 
     except ImportError:
         print("Error: click-man not installed. Install with: pip install click-man")
