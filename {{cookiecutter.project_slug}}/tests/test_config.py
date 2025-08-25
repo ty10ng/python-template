@@ -36,7 +36,7 @@ class TestConfig:
     def test_config_hierarchy(self, sample_config_file):
         """Test configuration hierarchy: env vars > config file > defaults."""
 
-        with patch.dict('os.environ', {'{{ cookiecutter.package_name |upper }}_API_TIMEOUT': '90'}):
+        with patch.dict('os.environ', {'{{cookiecutter.package_name|upper}}_API_TIMEOUT': '90'}):
             config = Config(config_file=str(sample_config_file))
 
             # Environment variable should win (converted to int)
