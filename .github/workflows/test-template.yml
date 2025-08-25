@@ -179,11 +179,11 @@ jobs:
           sys.path.insert(0, 'src')
 
           from test_project import get_logger, info, warning, error
-          from test_project.logger import TestprojectLogger
+          from test_project.logger import ProjectLogger
 
           # Test singleton pattern
-          logger1 = TestprojectLogger()
-          logger2 = TestprojectLogger()
+          logger1 = ProjectLogger()
+          logger2 = ProjectLogger()
           assert logger1 is logger2, 'Logger should be singleton'
           print('✅ Logger singleton pattern works')
 

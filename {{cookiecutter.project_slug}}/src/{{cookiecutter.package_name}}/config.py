@@ -223,9 +223,9 @@ class Config:
         # Set the final value
         current[keys[-1]] = value
 
-    def _deep_copy_dict(self, source: dict) -> dict:
+    def _deep_copy_dict(self, source: dict) -> dict[str, Any]:
         """Create a deep copy of a dictionary."""
-        result = {}
+        result: dict[str, Any] = {}
         for key, value in source.items():
             if isinstance(value, dict):
                 result[key] = self._deep_copy_dict(value)

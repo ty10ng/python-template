@@ -98,11 +98,11 @@ class TestCLICommands:
         assert '{{ cookiecutter.author_name }}' in result.output
         assert 'Configuration' in result.output
 
-    @patch('{{ cookiecutter.package_name }}.cli.click_man')
-    def test_generate_man_command_success(self, mock_click_man):
+    @patch('click_man.core.write_man_pages')
+    def test_generate_man_command_success(self, mock_write_man_pages):
         """Test man page generation when click-man is available."""
         # Mock successful man page generation
-        mock_click_man.generate_man_page.return_value = "Mock man page content"
+        mock_write_man_pages.return_value = None
 
         with self.runner.isolated_filesystem():
             result = self.runner.invoke(cli, ['generate-man', '--output', 'test.1'])
@@ -175,21 +175,21 @@ class TestCLIIntegration:
 
     def test_generate_man_page_function(self):
         """Test the generate_man_page entry point function."""
-        with patch('{{ cookiecutter.package_name }}.cli.write_man_pages') as mock_write:
+        with patch('click_man.core.write_man_pages') as mock_write:
             with patch('sys.argv', ['prog', '/tmp']):
                 generate_man_page()
                 mock_write.assert_called_once()
 
     def test_generate_man_page_missing_click_man(self):
         """Test generate_man_page when click-man is not available."""
-        with patch('{{ cookiecutter.package_name }}.cli.write_man_pages', side_effect=ImportError):
+        with patch('click_man.core.write_man_pages', side_effect=ImportError):
             with pytest.raises(SystemExit) as exc_info:
                 generate_man_page()
             assert exc_info.value.code == 1
 
     def test_generate_man_page_with_exception(self):
         """Test generate_man_page with general exception."""
-        with patch('{{ cookiecutter.package_name }}.cli.write_man_pages', side_effect=Exception("Test error")):
+        with patch('click_man.core.write_man_pages', side_effect=Exception("Test error")):
             with pytest.raises(SystemExit) as exc_info:
                 generate_man_page()
             assert exc_info.value.code == 1

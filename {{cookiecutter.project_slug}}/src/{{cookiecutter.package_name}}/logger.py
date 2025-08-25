@@ -65,7 +65,7 @@ class SensitiveDataFilter(logging.Filter):
                 # Handle the case where LogRecord unpacks a single dict argument
                 if isinstance(record.args, dict):
                     # Convert back to tuple format expected by tests
-                    sanitized_dict = self._sanitize_dict(record.args)
+                    sanitized_dict: dict[str, Any] = self._sanitize_dict(record.args)
                     record.args = (sanitized_dict,)
                 # Handle normal case where args is a tuple
                 elif isinstance(record.args, tuple | list):
@@ -297,7 +297,7 @@ class ProjectLogger:
         # Choose formatter based on configuration
         enable_json = config.get('logging.enable_json', False)
         if bool(enable_json):
-            file_formatter = JSONFormatter()
+            file_formatter: logging.Formatter = JSONFormatter()
         else:
             file_formatter = logging.Formatter(
                 '%(asctime)s | %(levelname)s | %(name)s | %(filename)s:%(lineno)d | %(funcName)s | %(message)s',
